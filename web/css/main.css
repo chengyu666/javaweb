@@ -1,0 +1,22 @@
+table{
+    width: 100%;
+}
+.td-info{
+    width: fit-content;
+}
+.left-panel{
+    width: 25%;
+    height: 60%;
+    margin: 10px 10px 0px 20px;
+    float: left;
+}
+h4{
+    padding: 0px;
+    margin: 0px;
+}
+.right-panel{
+    width: 65%;
+    margin-top: 10px;
+    margin-right: 20px;
+    float: right;
+}

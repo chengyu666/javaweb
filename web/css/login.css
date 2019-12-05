@@ -1,0 +1,39 @@
+body {
+    background-image: url('../images/a.jpg');
+    padding: 0px;
+}
+
+.title {
+    background: #f4f2ef;
+    margin: 0px;
+    padding: 1% 1% 1% 5%;
+}
+.result{
+    color: #a94442;
+    text-align: center;
+}
+#login-box {
+    /*border:1px solid #F00;*/
+    max-width: 250px;
+    margin: 10% auto auto;
+}
+
+.panel-title {
+    font-size: large;
+}
+
+.panel-body {
+    text-align: center;
+}
+
+p {
+    margin-bottom: auto;
+    font-size: medium;
+}
+
+.panel-footer {
+    width: 100%;
+    position:absolute;
+    bottom:0px;
+    left:0px;
+}
