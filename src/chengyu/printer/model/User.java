@@ -6,7 +6,7 @@ public class User {
     /**
      * 用户id
      */
-    private Integer id=-1;
+    private Integer id = -1;
     /**
      * 用户名称
      */
@@ -16,13 +16,19 @@ public class User {
      */
     private Date expire;
 
+    /**
+     * 用户角色
+     */
+    private String role;
+
     public User() {
     }
 
-    public User(Integer id, String name, Date expire) {
+    public User(Integer id, String name, Date expire, String role) {
         this.id = id;
         this.name = name;
         this.expire = expire;
+        this.role = role;
     }
 
     public Integer getId() {
@@ -41,15 +47,23 @@ public class User {
         this.name = name;
     }
 
-    public Date getexpire() {
+    public Date getExpire() {
         return expire;
     }
 
-    public void setexpire(Date expire) {
+    public void setExpire(Date expire) {
         this.expire = expire;
     }
 
-    public String toString(){
-        return "User{id:"+id+", name:"+name+" expire:"+expire+"}";
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String toString() {
+        return "User{id:" + id + ", name:" + name + " expire:" + expire +" role:"+role+ "}";
     }
 }

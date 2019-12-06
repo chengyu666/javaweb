@@ -21,7 +21,7 @@ public class LoginController {
     public String indexController(Model model) {
         logger.info("\nin controller, version:"+version);
         model.addAttribute("version",version); // 指定Model的值
-        return "login";//TODO
+        return "login";
     }
 
     @RequestMapping("/login/try")
@@ -37,7 +37,8 @@ public class LoginController {
                 model.addAttribute("version",version);
                 model.addAttribute("name",user.getName());
                 model.addAttribute("id",user.getId());
-                model.addAttribute("expire", user.getexpire());
+                model.addAttribute("expire", user.getExpire());
+                model.addAttribute("page","introduce");
                 return "commonUser";
             }else{
                 System.out.println("login failed");

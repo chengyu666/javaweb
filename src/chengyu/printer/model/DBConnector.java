@@ -33,10 +33,11 @@ public class DBConnector {
                 String name = rs.getString("name");
                 Integer id = rs.getInt("id");
                 Date expire = rs.getDate("expiredate");
+                String role=rs.getString("role");
                 System.out.println("password in DB:"+password);
                 if(password.equals(_password)) {
                     //password is correct
-                    user = new User(id, name, expire);
+                    user = new User(id, name, expire, role);
                 }
                 System.out.println(user.toString());
             }
@@ -47,12 +48,12 @@ public class DBConnector {
         return user;
     }
 
-    public List<User> testConnection()throws SQLException {
-        System.out.println("in test connection");
+    public List<User> getAllUsers()throws SQLException {
+        System.out.println("getting user info");
         try{
             Class.forName("com.mysql.jdbc.Driver");
         }catch(Exception e){
-            System.out.println("in conn:"+e);
+            System.out.println("in getAllUsers:"+e);
         }
         Connection connection= DriverManager.getConnection(URL,USER,PASSWORD);
         List<User> list = new ArrayList<User>();
@@ -64,8 +65,36 @@ public class DBConnector {
                 String name=rs.getString("name");
                 Integer id=rs.getInt("id");
                 Date expire=rs.getDate("expiredate");
-                System.out.println(name+" ID:"+id+" expdate:"+expire);
-                list.add(new User(id,name,expire));
+                String role=rs.getString("role");
+                System.out.println(name+" ID:"+id+" expiredate:"+expire);
+                list.add(new User(id,name,expire,role));
+            }
+            connection.close();
+        }else{
+            System.out.println("fail !");
+        }
+        return list;
+    }
+
+    public List<Code> getAllCodes()throws SQLException{
+        System.out.println("getting code info");
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+        }catch(Exception e){
+            System.out.println("in getAllCodes:"+e);
+        }
+        Connection connection= DriverManager.getConnection(URL,USER,PASSWORD);
+        List<Code> list = new ArrayList<Code>();
+        if(connection != null){
+            System.out.println("connected!");
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM code");
+            while(rs.next()){
+                String code=rs.getString("code");
+                Date time=rs.getTimestamp("time");
+                String message=rs.getString("message");
+                System.out.println(code+" des:"+message+" updatetime:"+time);
+                list.add(new Code(code,message,time));
             }
             connection.close();
         }else{

@@ -41,7 +41,9 @@
         </form>
     </div>
 </div>
-<div class="panel-footer">当前时间: <%= new java.util.Date() %>
+<div class="panel-footer">
+    当前时间: <%= new java.util.Date() %>
+    所在IP:<%out.println(request.getRemoteAddr());%>
 </div>
 
 </body>

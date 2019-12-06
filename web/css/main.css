@@ -10,13 +10,17 @@ table{
     margin: 10px 10px 0px 20px;
     float: left;
 }
-h4{
+h4, h3{
     padding: 0px;
     margin: 0px;
+    font-weight: bold;
 }
 .right-panel{
     width: 65%;
     margin-top: 10px;
     margin-right: 20px;
     float: right;
+}
+.panel-default{
+    margin-bottom: 0px;
 }

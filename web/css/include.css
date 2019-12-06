@@ -1,0 +1,10 @@
+form p, form input{
+    float:left;
+}
+form button{
+    float:right;
+    margin-left: 10px;
+}
+form input{
+    width: auto;
+}
