@@ -182,4 +182,23 @@ public class DBConnector {
         }
         return false;
     }
+
+    public boolean removeUserById(Integer id)throws SQLException{
+        refreshConnection();
+        if(connection!=null){
+            logger.info("connected!");
+            Statement stmt = connection.createStatement();
+            String sql="DELETE FROM user WHERE id="+id.toString();
+            int r=stmt.executeUpdate(sql);
+            logger.info("changed rows:"+r);
+            if(r==1){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            logger.info("wrong password!");
+            return false;
+        }
+    }
 }

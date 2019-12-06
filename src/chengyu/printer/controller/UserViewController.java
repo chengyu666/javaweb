@@ -23,7 +23,6 @@ public class UserViewController {
 
     @RequestMapping("/updateUser")
     public String doUpdatePassword(HttpServletRequest request, Model model){
-        //TODO
         String oldPassword=request.getParameter("oldp");
         String newPassword=request.getParameter("newp");
         String idStr=request.getParameter("id");
@@ -51,14 +50,28 @@ public class UserViewController {
     }
 
     @RequestMapping("/removeUser")
-    public String doRemoveUser(Model model){
-        //TODO
-        return "../../include/searchUser";
+    public String doRemoveUser(HttpServletRequest request, Model model){
+        String idStr=request.getParameter("id");
+        Integer id= Integer.valueOf(idStr);
+        try{
+            boolean isSuccess=connector.removeUserById(id);
+            if(isSuccess){
+                model.addAttribute("uResult", "删除成功");
+            }else {
+                model.addAttribute("uResult","删除失败");
+            }
+            //TODO isSuccess is not fully used!
+            List<User> list=connector.getAllUsers();
+            model.addAttribute("userList", list);
+        }catch (SQLException e){
+            logger.warning(e.toString());
+        }
+
+        return "../../include/allUsers";
     }
 
     @RequestMapping("/searchUser")
     public String doSearchUser(HttpServletRequest request, Model model){
-        //TODO
         String inputId=request.getParameter("input");
         logger.info("input id:"+inputId);
         try{
@@ -70,21 +83,6 @@ public class UserViewController {
         }
         return "../../include/searchUser";
     }
-
-    @RequestMapping("/searchCode")
-    public String doSearchCode(HttpServletRequest request, Model model){
-        //TODO
-        String inputCode=request.getParameter("input");
-        logger.info("input code:"+inputCode);
-        try{
-            logger.info("start searching...");
-            Code code = connector.getInfoByCode(inputCode);
-            model.addAttribute("code",code);
-        }catch(SQLException e){
-            logger.warning(e.toString());
-        }
-        return "../../include/searchCode";
-    }
     @RequestMapping("/allUsers")
     public String showAllUsers(Model model){
         try{
@@ -95,15 +93,4 @@ public class UserViewController {
         }
         return "../../include/allUsers";
     }
-    @RequestMapping("/allCodes")
-    public String showAllCodes(Model model){
-        try{
-            List<Code> list=connector.getAllCodes();
-            model.addAttribute("codeList", list);
-        }catch(SQLException e){
-            logger.warning(e.toString());
-        }
-        return "../../include/allCodes";
-    }
-
 }

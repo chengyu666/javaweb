@@ -43,7 +43,7 @@
         </td>
     </table>
 </div>
-<table border="2px" class="two-panels">
+<table class="two-panels">
     <tr>
         <td width="20%">
             <div class="left-panel panel panel-default">
