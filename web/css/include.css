@@ -1,10 +1,24 @@
-form p, form input{
+#search-bar p, #search-bar input{
     float:left;
 }
-form button{
+#search-bar button{
     float:right;
     margin-left: 10px;
 }
-form input{
+#search-bar input{
     width: auto;
+}
+#search-result{
+    margin-top: 4%;
+    text-align: left;
+}
+#search-result h4{
+    margin-top: 20px;
+}
+#search-result p{
+    padding-left: 20px;
+    padding-top: 8px;
+}
+.result-ok{
+    color: #3c763d;
 }

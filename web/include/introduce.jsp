@@ -13,7 +13,7 @@
 <body>
 <div class="panel panel-default">
     <div class="right-title panel-heading">
-        <h4 id="right-title-text">系统介绍</h4>
+        <h3 id="right-title-text">系统介绍</h3>
     </div>
     <div class="panel-body">
         <h4>本系统由：</h4>

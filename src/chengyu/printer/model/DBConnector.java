@@ -6,21 +6,28 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class DBConnector {
-    private static final String URL = "jdbc:mysql://localhost:3306/s_e";
+    Logger logger = Logger.getLogger("logger");
+    private static final String URL = "jdbc:mysql://localhost:3306/s_e?useSSL=false";
     private static final String USER = "rjgc";
     private static final String PASSWORD = "rjgc123";
+    private Connection connection;
+
+    private void refreshConnection(){
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            connection= DriverManager.getConnection(URL,USER,PASSWORD);
+        }catch(Exception e){
+            logger.warning("in conn:"+e);
+        }
+    }
 
     public User login(String _name ,String _password) throws SQLException{
         User user=new User();
         //id==-1 login fail
-        try{
-            Class.forName("com.mysql.jdbc.Driver");
-        }catch(Exception e){
-            System.out.println("in conn:"+e);
-        }
-        Connection connection= DriverManager.getConnection(URL,USER,PASSWORD);
+        refreshConnection();
         List<User> list = new ArrayList<User>();
         if(connection != null){
             //connected
@@ -43,19 +50,14 @@ public class DBConnector {
             }
             connection.close();
         }else{
-            System.out.println("connection fail !");
+            logger.warning("connection fail !");
         }
         return user;
     }
 
     public List<User> getAllUsers()throws SQLException {
         System.out.println("getting user info");
-        try{
-            Class.forName("com.mysql.jdbc.Driver");
-        }catch(Exception e){
-            System.out.println("in getAllUsers:"+e);
-        }
-        Connection connection= DriverManager.getConnection(URL,USER,PASSWORD);
+        refreshConnection();
         List<User> list = new ArrayList<User>();
         if(connection != null){
             System.out.println("connected!");
@@ -77,11 +79,11 @@ public class DBConnector {
     }
 
     public List<Code> getAllCodes()throws SQLException{
-        System.out.println("getting code info");
+        System.out.println("getting all code info");
         try{
             Class.forName("com.mysql.jdbc.Driver");
         }catch(Exception e){
-            System.out.println("in getAllCodes:"+e);
+            logger.warning("in getAllCodes:"+e);
         }
         Connection connection= DriverManager.getConnection(URL,USER,PASSWORD);
         List<Code> list = new ArrayList<Code>();
@@ -93,14 +95,91 @@ public class DBConnector {
                 String code=rs.getString("code");
                 Date time=rs.getTimestamp("time");
                 String message=rs.getString("message");
-                System.out.println(code+" des:"+message+" updatetime:"+time);
+                //System.out.println(code+" des:"+message+" updatetime:"+time);
                 list.add(new Code(code,message,time));
             }
             connection.close();
         }else{
-            System.out.println("fail !");
+            logger.warning("fail !");
         }
         return list;
     }
 
+    public Code getInfoByCode(String inputCode)throws SQLException{
+        logger.fine("getting code info");
+        refreshConnection();
+        Code errorCode = new Code();
+        if(connection != null){
+            logger.info("connected!");
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM code");
+            while(rs.next()){
+                String code=rs.getString("code");
+                Date time=rs.getTimestamp("time");
+                String message=rs.getString("message");
+                if(code.equals(inputCode)) {
+                    errorCode.update(code, message, time);
+                    logger.info(errorCode.toString());
+                    logger.info("find the code!");
+                }
+            }
+            connection.close();
+        }else{
+            logger.warning("connection fail !");
+        }
+        return errorCode;
+    }
+
+    public User getUserById(String inputId)throws SQLException{
+        logger.info("inputId:"+inputId);
+        refreshConnection();
+        User user = new User();
+        if(connection != null){
+            logger.info("connected!");
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM user");
+            while(rs.next()){
+
+                String name = rs.getString("name");
+                Integer id = rs.getInt("id");
+                Date expire = rs.getDate("expiredate");
+                String role=rs.getString("role");
+                logger.info("id in db:"+id);
+                if(id.toString().equals(inputId)) {
+                    user.update(id,name,expire,role);
+                    logger.info(user.toString());
+                    logger.info("find the user!");
+                }
+            }
+            connection.close();
+        }else{
+            logger.warning("connection fail !");
+        }
+        return user;
+    }
+    public boolean updatePassword(Integer id, String oldPassword, String newPassword)throws SQLException{
+        refreshConnection();
+        if(connection!=null){
+            logger.info("connected!");
+            Statement stmt = connection.createStatement();
+            String sql="SELECT * FROM user where id=?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1,id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                String password= rs.getString("password");
+                if(password.equals(oldPassword)){
+                    logger.info("password is correct!");
+                    sql="UPDATE user SET password='"+newPassword+"' WHERE id="+id.toString();
+                    int r = stmt.executeUpdate(sql);
+                    logger.info("changed rows:"+r);
+                    return true;
+                }else{
+                    logger.info("wrong password!");
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
 }

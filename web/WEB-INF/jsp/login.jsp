@@ -27,7 +27,6 @@
         </h4>
     </div>
     <p class="result">${loginResult}</p>
-    <!--TODO-->
     <div class="panel-body">
         <form action="${pageContext.request.contextPath}/login/try" method="post" style="padding-top:-700px;">
             <p>用户名</p><input type="text" name="name" value=""><br>

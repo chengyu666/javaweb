@@ -30,6 +30,12 @@ public class User {
         this.expire = expire;
         this.role = role;
     }
+    public void update(Integer id, String name, Date expire, String role){
+        setExpire(expire);
+        setId(id);
+        setName(name);
+        setRole(role);
+    }
 
     public Integer getId() {
         return id;

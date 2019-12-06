@@ -15,7 +15,7 @@
 <body>
 <div class="panel panel-default">
     <div class="right-title panel-heading">
-        <h4 id="right-title-text">所有错误代码信息</h4>
+        <h3 id="right-title-text">所有错误代码信息</h3>
     </div>
     <div class="panel-body">
         <table width="100%" border=1>

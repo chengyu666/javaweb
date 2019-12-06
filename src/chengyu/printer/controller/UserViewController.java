@@ -16,20 +16,77 @@ import java.util.logging.Logger;
 @Controller
 public class UserViewController {
     Logger logger = Logger.getLogger("logger");
+    DBConnector connector=new DBConnector();
 
     @Value("${config.version}")
     String version;
 
-    @RequestMapping("/searchCode")
-    public String doSearch(HttpServletRequest request, Model model){
+    @RequestMapping("/updateUser")
+    public String doUpdatePassword(HttpServletRequest request, Model model){
         //TODO
-        String code=request.getParameter("code");
-        logger.info("error code:"+code);
-        return "../../include/search";
+        String oldPassword=request.getParameter("oldp");
+        String newPassword=request.getParameter("newp");
+        String idStr=request.getParameter("id");
+        Integer id= Integer.valueOf(idStr);
+        logger.info("id:"+idStr+
+                " old pass:"+oldPassword+
+                " new pass:"+newPassword);
+        try{
+            boolean isSuccess=connector.updatePassword(id,oldPassword,newPassword);
+            if(isSuccess){
+                model.addAttribute("uResult", "修改成功");
+            }else {
+                model.addAttribute("uResult","修改失败，请重试");
+            }
+        }catch (SQLException e){
+            logger.warning(e.toString());
+        }
+        return "../../include/updateUser";
+    }
+
+    @RequestMapping("/editUser")
+    public String doEditUser(Model model){
+        //TODO
+        return "../../include/searchUser";
+    }
+
+    @RequestMapping("/removeUser")
+    public String doRemoveUser(Model model){
+        //TODO
+        return "../../include/searchUser";
+    }
+
+    @RequestMapping("/searchUser")
+    public String doSearchUser(HttpServletRequest request, Model model){
+        //TODO
+        String inputId=request.getParameter("input");
+        logger.info("input id:"+inputId);
+        try{
+            logger.info("start searching...");
+            User user = connector.getUserById(inputId);
+            model.addAttribute("userInfo",user);
+        }catch(SQLException e){
+            logger.warning(e.toString());
+        }
+        return "../../include/searchUser";
+    }
+
+    @RequestMapping("/searchCode")
+    public String doSearchCode(HttpServletRequest request, Model model){
+        //TODO
+        String inputCode=request.getParameter("input");
+        logger.info("input code:"+inputCode);
+        try{
+            logger.info("start searching...");
+            Code code = connector.getInfoByCode(inputCode);
+            model.addAttribute("code",code);
+        }catch(SQLException e){
+            logger.warning(e.toString());
+        }
+        return "../../include/searchCode";
     }
     @RequestMapping("/allUsers")
     public String showAllUsers(Model model){
-        DBConnector connector=new DBConnector();
         try{
             List<User> list=connector.getAllUsers();
             model.addAttribute("userList", list);
@@ -40,7 +97,6 @@ public class UserViewController {
     }
     @RequestMapping("/allCodes")
     public String showAllCodes(Model model){
-        DBConnector connector=new DBConnector();
         try{
             List<Code> list=connector.getAllCodes();
             model.addAttribute("codeList", list);

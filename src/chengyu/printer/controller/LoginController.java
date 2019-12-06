@@ -35,11 +35,9 @@ public class LoginController {
             if(user.getId()>0){
                 System.out.println("login success!");
                 model.addAttribute("version",version);
-                model.addAttribute("name",user.getName());
-                model.addAttribute("id",user.getId());
-                model.addAttribute("expire", user.getExpire());
+                model.addAttribute("user",user);
                 model.addAttribute("page","introduce");
-                return "commonUser";
+                return "main";
             }else{
                 System.out.println("login failed");
                 model.addAttribute("version",version);
@@ -57,6 +55,6 @@ public class LoginController {
     public String testController(Model model) {
         model.addAttribute("version",version); // 指定Model的值
         model.addAttribute("loginResult", "登陆失败！");
-        return "loginSuccess";//TODO
+        return "loginSuccess";
     }
 }

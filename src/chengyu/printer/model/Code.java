@@ -26,6 +26,11 @@ public class Code {
         this.message=message;
         this.time=time;
     }
+    public void update(String code,String message,Date time){
+        setCode(code);
+        setMessage(message);
+        setTime(time);
+    }
     public void setCode(String code){
         this.code=code;
     }
@@ -43,5 +48,8 @@ public class Code {
     }
     public Date getTime(){
         return time;
+    }
+    public String toString(){
+        return code+" des:"+message+" updatetime:"+time;
     }
 }

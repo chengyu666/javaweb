@@ -16,26 +16,24 @@
 <body>
 <div class="panel panel-default">
     <div class="right-title panel-heading">
-        <h4 id="right-title-text">所有用户信息</h4>
+        <h3 id="right-title-text">所有用户信息</h3>
     </div>
     <div class="panel-body">
 
         <table width="100%" border=1>
             <tr>
-                <td>用户名称</td>
                 <td>用户ID</td>
+                <td>用户名称</td>
                 <td>角色</td>
                 <td>过期日期</td>
-                <td>操作</td>
             </tr>
             <%--@elvariable id="userList" type="java.util.List"--%>
             <c:forEach items="${userList}" var="item">
                 <tr>
-                    <td>${item.name}</td>
                     <td>${item.id}</td>
+                    <td>${item.name}</td>
                     <td>${item.role}</td>
                     <td><fmt:formatDate value="${item.expire}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-                    <td><a href="${pageContext.request.contextPath }/itemEdit.action?id=${item.id}">修改</a></td>
                 </tr>
             </c:forEach>
         </table>
