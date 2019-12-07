@@ -15,166 +15,167 @@ public class DBConnector {
     private static final String PASSWORD = "rjgc123";
     private Connection connection;
 
-    private void refreshConnection(){
-        try{
+    private void refreshConnection() {
+        try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection= DriverManager.getConnection(URL,USER,PASSWORD);
-        }catch(Exception e){
-            logger.warning("in conn:"+e);
+            connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        } catch (Exception e) {
+            logger.warning("in conn:" + e);
         }
     }
 
-    public User login(String _name ,String _password) throws SQLException{
-        User user=new User();
+    public User login(String _name, String _password) throws SQLException {
+        User user = new User();
         //id==-1 login fail
         refreshConnection();
         List<User> list = new ArrayList<User>();
-        if(connection != null){
+        if (connection != null) {
             //connected
             System.out.println("connected!");
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM user where name=\'"+_name+"\'");
-            if(rs.next()) {
+            ResultSet rs = stmt.executeQuery("SELECT * FROM user where name=\'" + _name + "\'");
+            if (rs.next()) {
                 //has user with this name
-                String password= rs.getString("password");
+                String password = rs.getString("password");
                 String name = rs.getString("name");
                 Integer id = rs.getInt("id");
                 Date expire = rs.getDate("expiredate");
-                String role=rs.getString("role");
-                System.out.println("password in DB:"+password);
-                if(password.equals(_password)) {
+                String role = rs.getString("role");
+                System.out.println("password in DB:" + password);
+                if (password.equals(_password)) {
                     //password is correct
                     user = new User(id, name, expire, role);
                 }
                 System.out.println(user.toString());
             }
             connection.close();
-        }else{
+        } else {
             logger.warning("connection fail !");
         }
         return user;
     }
 
-    public List<User> getAllUsers()throws SQLException {
+    public List<User> getAllUsers() throws SQLException {
         System.out.println("getting user info");
         refreshConnection();
         List<User> list = new ArrayList<User>();
-        if(connection != null){
+        if (connection != null) {
             System.out.println("connected!");
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM user");
-            while(rs.next()){
-                String name=rs.getString("name");
-                Integer id=rs.getInt("id");
-                Date expire=rs.getDate("expiredate");
-                String role=rs.getString("role");
-                System.out.println(name+" ID:"+id+" expiredate:"+expire);
-                list.add(new User(id,name,expire,role));
+            while (rs.next()) {
+                String name = rs.getString("name");
+                Integer id = rs.getInt("id");
+                Date expire = rs.getDate("expiredate");
+                String role = rs.getString("role");
+                System.out.println(name + " ID:" + id + " expiredate:" + expire);
+                list.add(new User(id, name, expire, role));
             }
             connection.close();
-        }else{
+        } else {
             System.out.println("fail !");
         }
         return list;
     }
 
-    public List<Code> getAllCodes()throws SQLException{
+    public List<Code> getAllCodes() throws SQLException {
         System.out.println("getting all code info");
-        try{
+        try {
             Class.forName("com.mysql.jdbc.Driver");
-        }catch(Exception e){
-            logger.warning("in getAllCodes:"+e);
+        } catch (Exception e) {
+            logger.warning("in getAllCodes:" + e);
         }
-        Connection connection= DriverManager.getConnection(URL,USER,PASSWORD);
+        Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
         List<Code> list = new ArrayList<Code>();
-        if(connection != null){
+        if (connection != null) {
             System.out.println("connected!");
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM code");
-            while(rs.next()){
-                String code=rs.getString("code");
-                Date time=rs.getTimestamp("time");
-                String message=rs.getString("message");
+            while (rs.next()) {
+                String code = rs.getString("code");
+                Date time = rs.getTimestamp("time");
+                String message = rs.getString("message");
                 //System.out.println(code+" des:"+message+" updatetime:"+time);
-                list.add(new Code(code,message,time));
+                list.add(new Code(code, message, time));
             }
             connection.close();
-        }else{
+        } else {
             logger.warning("fail !");
         }
         return list;
     }
 
-    public Code getInfoByCode(String inputCode)throws SQLException{
+    public Code getInfoByCode(String inputCode) throws SQLException {
         logger.fine("getting code info");
         refreshConnection();
         Code errorCode = new Code();
-        if(connection != null){
+        if (connection != null) {
             logger.info("connected!");
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM code");
-            while(rs.next()){
-                String code=rs.getString("code");
-                Date time=rs.getTimestamp("time");
-                String message=rs.getString("message");
-                if(code.equals(inputCode)) {
+            while (rs.next()) {
+                String code = rs.getString("code");
+                Date time = rs.getTimestamp("time");
+                String message = rs.getString("message");
+                if (code.equals(inputCode)) {
                     errorCode.update(code, message, time);
                     logger.info(errorCode.toString());
                     logger.info("find the code!");
                 }
             }
             connection.close();
-        }else{
+        } else {
             logger.warning("connection fail !");
         }
         return errorCode;
     }
 
-    public User getUserById(String inputId)throws SQLException{
-        logger.info("inputId:"+inputId);
+    public User getUserById(String inputId) throws SQLException {
+        logger.info("inputId:" + inputId);
         refreshConnection();
         User user = new User();
-        if(connection != null){
+        if (connection != null) {
             logger.info("connected!");
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM user");
-            while(rs.next()){
+            while (rs.next()) {
 
                 String name = rs.getString("name");
                 Integer id = rs.getInt("id");
                 Date expire = rs.getDate("expiredate");
-                String role=rs.getString("role");
-                logger.info("id in db:"+id);
-                if(id.toString().equals(inputId)) {
-                    user.update(id,name,expire,role);
+                String role = rs.getString("role");
+                logger.info("id in db:" + id);
+                if (id.toString().equals(inputId)) {
+                    user.update(id, name, expire, role);
                     logger.info(user.toString());
                     logger.info("find the user!");
                 }
             }
             connection.close();
-        }else{
+        } else {
             logger.warning("connection fail !");
         }
         return user;
     }
-    public boolean updatePassword(Integer id, String oldPassword, String newPassword)throws SQLException{
+
+    public boolean updatePassword(Integer id, String oldPassword, String newPassword) throws SQLException {
         refreshConnection();
-        if(connection!=null){
+        if (connection != null) {
             logger.info("connected!");
             Statement stmt = connection.createStatement();
-            String sql="SELECT * FROM user where id=?";
+            String sql = "SELECT * FROM user where id=?";
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1,id);
+            ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()){
-                String password= rs.getString("password");
-                if(password.equals(oldPassword)){
+            while (rs.next()) {
+                String password = rs.getString("password");
+                if (password.equals(oldPassword)) {
                     logger.info("password is correct!");
-                    sql="UPDATE user SET password='"+newPassword+"' WHERE id="+id.toString();
+                    sql = "UPDATE user SET password='" + newPassword + "' WHERE id=" + id.toString();
                     int r = stmt.executeUpdate(sql);
-                    logger.info("changed rows:"+r);
+                    logger.info("changed rows:" + r);
                     return true;
-                }else{
+                } else {
                     logger.info("wrong password!");
                     return false;
                 }
@@ -183,22 +184,62 @@ public class DBConnector {
         return false;
     }
 
-    public boolean removeUserById(Integer id)throws SQLException{
+    public boolean updateUserName(Integer id, String newName) throws SQLException {
         refreshConnection();
-        if(connection!=null){
+        if (connection != null) {
             logger.info("connected!");
             Statement stmt = connection.createStatement();
-            String sql="DELETE FROM user WHERE id="+id.toString();
-            int r=stmt.executeUpdate(sql);
-            logger.info("changed rows:"+r);
-            if(r==1){
+            String sql = "UPDATE user SET name='" + newName + "' WHERE id=" + id.toString();
+            int r = stmt.executeUpdate(sql);
+            logger.info("changed rows:" + r);
+            if (r == 1) {
+                logger.info("update name success!");
                 return true;
-            }else{
+            } else {
+                logger.info("update name fail!");
                 return false;
             }
-        }else{
-            logger.info("wrong password!");
-            return false;
         }
+        return false;
+    }
+    public boolean updateUserExpire(Integer id, String newExpire){
+        refreshConnection();
+        if (connection != null) {
+            logger.info("connected!new expire:"+newExpire);
+            try{
+                Statement stmt = connection.createStatement();
+                String sql = "UPDATE user SET expiredate='" + newExpire + "' WHERE id=" + id.toString();
+                int r = stmt.executeUpdate(sql);
+                logger.info("changed rows:" + r);
+                if (r == 1) {
+                    logger.info("update expire success!");
+                    return true;
+                } else {
+                    logger.info("update expire fail!");
+                    return false;
+                }
+            }catch (SQLException e){
+                logger.warning(e.toString());
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public boolean removeUserById(Integer id) throws SQLException {
+        refreshConnection();
+        if (connection != null) {
+            logger.info("connected!");
+            Statement stmt = connection.createStatement();
+            String sql = "DELETE FROM user WHERE id=" + id.toString();
+            int r = stmt.executeUpdate(sql);
+            logger.info("changed rows:" + r);
+            if (r == 1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
     }
 }

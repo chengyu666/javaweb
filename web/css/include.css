@@ -22,3 +22,6 @@
 .result-ok{
     color: #3c763d;
 }
+.result-fail{
+    color: #761c19;
+}

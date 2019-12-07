@@ -25,6 +25,13 @@
             rightContent.empty();
             rightContent.load("${pageContext.request.contextPath}/searchUser?input=" + input);
         }
+        function removeUser(id) {
+            if(confirm("确认删除ID为"+id+"的用户？")){
+                const rightContent = $("#right-content");
+                rightContent.empty();
+                rightContent.load("${pageContext.request.contextPath}/removeUser?id="+id);
+            }
+        }
     </script>
     <div class="panel-body">
         <div id="search-bar">
@@ -58,12 +65,12 @@
                 </c:if>
                 <c:if test="${not infoIsAdmin}">
                     <p>
-                        <a href="${pageContext.request.contextPath }/editUser?id=${userInfo.id}">修改</a>
-                        <a href="${pageContext.request.contextPath }/removeUser?id=${userInfo.id}">删除</a>
+                        <a onclick="changePage('${pageContext.request.contextPath}/gotoEditUser?id=${userInfo.id}')">修改</a>
+                        <a onclick="removeUser(${userInfo.id})">删除</a>
                     </p>
                 </c:if>
             </c:if>
-
+            <br>
         </div>
     </div>
 </div>

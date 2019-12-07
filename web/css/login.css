@@ -1,6 +1,9 @@
 body {
     background-image: url('../images/a.jpg');
     padding: 0px;
+    position: relative;
+    min-height: 600px;
+    min-width: 700px;
 }
 
 .title {
@@ -36,4 +39,5 @@ p {
     position:absolute;
     bottom:0px;
     left:0px;
+    height: 41px;
 }

@@ -1,6 +1,5 @@
 package chengyu.printer.controller;
 
-import chengyu.printer.model.Code;
 import chengyu.printer.model.DBConnector;
 import chengyu.printer.model.User;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,7 +20,59 @@ public class UserViewController {
     @Value("${config.version}")
     String version;
 
-    @RequestMapping("/updateUser")
+    @RequestMapping("/editUserExpire")
+    public String editUserExpire(HttpServletRequest request, Model model){
+        String idStr=request.getParameter("id");
+        String newExpire=request.getParameter("newExpire");
+        Integer id= Integer.valueOf(idStr);
+        try{
+            boolean isSuccess=connector.updateUserExpire(id,newExpire);
+            if(isSuccess){
+                model.addAttribute("expireResultOk", "使用期限修改成功!");
+            }else {
+                model.addAttribute("expireResultFail","使用期限修改失败，请重试");
+            }
+            User user = connector.getUserById(idStr);
+            model.addAttribute("userInfo",user);
+        }catch(SQLException e){
+            logger.warning(e.toString());
+        }
+        return "../../include/editUser";
+    }
+
+    @RequestMapping("/editUserName")
+    public String editUserName(HttpServletRequest request, Model model){
+        String idStr=request.getParameter("id");
+        String newName=request.getParameter("newName");
+        Integer id= Integer.valueOf(idStr);
+        try{
+            boolean isSuccess=connector.updateUserName(id,newName);
+            if(isSuccess){
+                model.addAttribute("nameResultOk", "用户名修改成功!");
+            }else {
+                model.addAttribute("nameResultFail","用户名修改失败，请重试");
+            }
+            User user = connector.getUserById(idStr);
+            model.addAttribute("userInfo",user);
+        }catch(SQLException e){
+            logger.warning(e.toString());
+        }
+        return "../../include/editUser";
+    }
+
+    @RequestMapping("/gotoEditUser")
+    public String gotoEditUser(HttpServletRequest request, Model model){
+        String userId=request.getParameter("id");
+        try{
+            User user = connector.getUserById(userId);
+            model.addAttribute("userInfo",user);
+        }catch(SQLException e){
+            logger.warning(e.toString());
+        }
+        return "../../include/editUser";
+    }
+
+    @RequestMapping("/updatePassword")
     public String doUpdatePassword(HttpServletRequest request, Model model){
         String oldPassword=request.getParameter("oldp");
         String newPassword=request.getParameter("newp");
@@ -40,13 +91,7 @@ public class UserViewController {
         }catch (SQLException e){
             logger.warning(e.toString());
         }
-        return "../../include/updateUser";
-    }
-
-    @RequestMapping("/editUser")
-    public String doEditUser(Model model){
-        //TODO
-        return "../../include/searchUser";
+        return "../../include/updatePassword";
     }
 
     @RequestMapping("/removeUser")

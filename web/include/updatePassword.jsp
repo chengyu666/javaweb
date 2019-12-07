@@ -25,7 +25,7 @@
             const id=$("#userid").text();
             //alert(id+oldp+newp);
             rightContent.empty();
-            rightContent.load("${pageContext.request.contextPath}/updateUser?id="+id+"&oldp="+oldp+"&newp="+newp);
+            rightContent.load("${pageContext.request.contextPath}/updatePassword?id="+id+"&oldp="+oldp+"&newp="+newp);
         }
         function clearInput() {
             //alert("in clear");
@@ -35,7 +35,7 @@
     </script>
     <div class="panel-body">
         <div id="search-bar-updateUser">
-            <form id="form" onsubmit="return false;" onkeydown="if(event.keyCode==13){return false;}">
+            <form id="form" onsubmit="return false;" onkeydown="if(event.keyCode===13){return false;}">
                 <input style="display:none"/>
                 <p>输入旧密码：</p>
                 <input class=".input" type="password" name="oldPassword" id="oldPassword">

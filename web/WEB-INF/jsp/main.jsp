@@ -45,60 +45,63 @@
 </div>
 <table class="two-panels">
     <tr>
-        <td width="20%">
+        <td width="20%" style="vertical-align: top;">
             <div class="left-panel panel panel-default">
-            <div class="left-title panel-heading">
-                <h4 style="margin: 0px"><span class="glyphicon glyphicon-cog"></span>选择功能</h4>
+                <div class="left-title panel-heading">
+                    <h4 style="margin: 0px"><span class="glyphicon glyphicon-cog"></span>选择功能</h4>
+                </div>
+                <script type="text/javascript">
+                    function changePage(pagePath) {
+                        const rightContent = $("#right-content");
+                        rightContent.empty();
+                        rightContent.load(pagePath);
+                    }
+                </script>
+                <div class="panel-body">
+                    <ul class="list-group">
+                        <li onclick="changePage('${pageContext.request.contextPath}/include/introduce.jsp')"
+                            class="list-group-item btn btn-default btn-lg btn-block text-left">
+                            <span class="glyphicon glyphicon-star"></span>查询系统介绍
+                        </li>
+                        <li onclick="changePage('${pageContext.request.contextPath}/include/searchCode.jsp')"
+                            class="list-group-item btn btn-default btn-lg btn-block text-left">
+                            <span class="glyphicon glyphicon-search"></span>查询错误代码
+                        </li>
+                        <li onclick="changePage('${pageContext.request.contextPath}/allCodes')"
+                            class="list-group-item btn btn-default btn-lg btn-block text-left">
+                            <span class="glyphicon glyphicon-th-list"></span>查看所有代码
+                        </li>
+                        <li onclick="changePage('${pageContext.request.contextPath}/include/updatePassword.jsp')"
+                            class="list-group-item btn btn-default btn-lg btn-block text-left">
+                            <span class="glyphicon glyphicon-lock"></span>修改登陆密码
+                        </li>
+                        <c:if test="${isAdmin}">
+                            管理员功能：
+                            <li onclick="changePage('${pageContext.request.contextPath}/allUsers')"
+                                class="list-group-item btn btn-default btn-lg btn-block text-left">
+                                <span class="glyphicon glyphicon-list-alt"></span>管理所有用户
+                            </li>
+                            <li onclick="changePage('${pageContext.request.contextPath}/include/searchUser.jsp')"
+                                class="list-group-item btn btn-default btn-lg btn-block text-left">
+                                <span class="glyphicon glyphicon-search"></span>查询特定用户
+                            </li>
+                        </c:if>
+                    </ul>
+                </div>
             </div>
-            <script type="text/javascript">
-                function changePage(pagePath) {
-                    const rightContent = $("#right-content");
-                    rightContent.empty();
-                    rightContent.load(pagePath);
-                }
-            </script>
-            <div class="panel-body">
-                <ul class="list-group">
-                    <li onclick="changePage('${pageContext.request.contextPath}/include/introduce.jsp')"
-                        class="list-group-item btn btn-default btn-lg btn-block text-left">
-                        <span class="glyphicon glyphicon-star"></span>查询系统介绍
-                    </li>
-                    <li onclick="changePage('${pageContext.request.contextPath}/include/searchCode.jsp')"
-                        class="list-group-item btn btn-default btn-lg btn-block text-left">
-                        <span class="glyphicon glyphicon-search"></span>查询错误代码
-                    </li>
-                    <li onclick="changePage('${pageContext.request.contextPath}/allCodes')"
-                        class="list-group-item btn btn-default btn-lg btn-block text-left">
-                        <span class="glyphicon glyphicon-th-list"></span>查看所有代码
-                    </li>
-                    <li onclick="changePage('${pageContext.request.contextPath}/include/updateUser.jsp')"
-                        class="list-group-item btn btn-default btn-lg btn-block text-left">
-                        <span class="glyphicon glyphicon-th-list"></span>修改账户信息
-                    </li>
-                    <c:if test="${isAdmin}">
-                        管理员功能：
-                        <li onclick="changePage('${pageContext.request.contextPath}/allUsers')"
-                            class="list-group-item btn btn-default btn-lg btn-block text-left">
-                            <span class="glyphicon glyphicon-list-alt"></span>查看所有用户
-                        </li>
-                        <li onclick="changePage('${pageContext.request.contextPath}/include/searchUser.jsp')"
-                            class="list-group-item btn btn-default btn-lg btn-block text-left">
-                            <span class="glyphicon glyphicon-list-alt"></span>查询特定用户
-                        </li>
+        </td>
+        <td width="80%" style="vertical-align: top;">
+            <div class="right-panel">
+                <div id="right-content">
+                    <c:if test="${page eq 'introduce'}">
+                        <jsp:include page="../../include/introduce.jsp"/>
                     </c:if>
-                </ul>
+                    <c:if test="${page eq 'search'}">
+                        <jsp:include page="../../include/searchCode.jsp"/>
+                    </c:if>
+                </div>
             </div>
-        </div></td>
-        <td width="80%" style="vertical-align: top;"><div class="right-panel">
-            <div id="right-content">
-                <c:if test="${page eq 'introduce'}">
-                    <jsp:include page="../../include/introduce.jsp"/>
-                </c:if>
-                <c:if test="${page eq 'search'}">
-                    <jsp:include page="../../include/searchCode.jsp"/>
-                </c:if>
-            </div>
-        </div></td>
+        </td>
     </tr>
 </table>
 

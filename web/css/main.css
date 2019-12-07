@@ -5,7 +5,8 @@ table{
     width: 25%;
     min-width: 200px;
     height: auto;
-    margin: 20px auto auto 20px;
+    margin: 20px auto 50px 20px;
+    vertical-align: top;
 }
 .list-group-item{
     margin: -1px 0px 5px;
@@ -19,10 +20,15 @@ h4, h3{
     width: 90%;
     height: auto;
     margin: 20px auto auto;
-}
-#two-panels td{
-    padding-top: 0px;
     vertical-align: top;
+}
+.two-panels td{
+    padding-top: 0px;
+    padding-bottom: 0px;
+    vertical-align: top;
+}
+.left-panel, .right-panel{
+    margin-bottom: 50px;
 }
 .panel-default{
     margin-bottom: 0px;

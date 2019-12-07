@@ -18,7 +18,7 @@
         <h3 id="right-title-text">所有错误代码信息</h3>
     </div>
     <div class="panel-body">
-        <table width="100%" border=1>
+        <table width="100%" class="table table-bordered table-striped">
             <tr>
                 <td>错误代码</td>
                 <td>描述</td>

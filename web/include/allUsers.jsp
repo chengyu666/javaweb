@@ -29,7 +29,8 @@
     </script>
     <div class="panel-body">
         <p class="result-ok">${uResult}</p>
-        <table width="100%" border=1>
+        <p>TODO here</p>
+        <table width="100%" class="table table-bordered table-striped">
             <tr>
                 <td>用户ID</td>
                 <td>用户名称</td>
@@ -45,13 +46,18 @@
                     <td>${item.role}</td>
                     <td><fmt:formatDate value="${item.expire}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                     <td>
-                        <a onclick="changePage('${pageContext.request.contextPath}/include/editUser.jsp')">编辑</a>
-                        <a onclick="removeUser(${item.id})">删除</a>
+                        <c:if test="${item.role eq 'u'}" var="isCommomUser">
+                            <a onclick="changePage('${pageContext.request.contextPath}/gotoEditUser?id=${item.id}')">编辑</a>
+                            <a onclick="removeUser(${item.id})">删除</a>
+                        </c:if>
+                        <c:if test="${not isCommomUser}">
+                            无法修改
+                        </c:if>
                     </td>
                 </tr>
             </c:forEach>
         </table>
-        <p>TODO here</p>
+
     </div>
 </div>
 </body>
