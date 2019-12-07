@@ -15,7 +15,7 @@
 <body>
 <div class="panel panel-default">
     <div class="right-title panel-heading">
-        <h3 id="right-title-text">修改信息</h3>
+        <h3 id="right-title-text">修改密码</h3>
     </div>
     <script type="text/javascript">
         function updateInfo(){
@@ -51,6 +51,7 @@
                 </div>
             </form>
             <p class="result-ok">${uResult}</p>
+            <!--TODO ↑-->
         </div>
         <br>
 

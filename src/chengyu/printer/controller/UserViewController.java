@@ -20,6 +20,26 @@ public class UserViewController {
     @Value("${config.version}")
     String version;
 
+    @RequestMapping("/addUser")
+    public String addUser(HttpServletRequest request, Model model){
+        String name=request.getParameter("name");
+        String password=request.getParameter("password");
+        String expire=request.getParameter("expire");
+        try{
+            boolean isSuccess=connector.addUser(name,password,expire);
+            if(isSuccess){
+                model.addAttribute("uResultOk", "添加用户成功!");
+            }else {
+                model.addAttribute("uResultFail","添加用户失败，请重试");
+            }
+            List<User> list=connector.getAllUsers();
+            model.addAttribute("userList", list);
+        }catch(SQLException e){
+            logger.warning(e.toString());
+        }
+        return "../../include/allUsers";
+    }
+
     @RequestMapping("/editUserExpire")
     public String editUserExpire(HttpServletRequest request, Model model){
         String idStr=request.getParameter("id");
@@ -101,9 +121,9 @@ public class UserViewController {
         try{
             boolean isSuccess=connector.removeUserById(id);
             if(isSuccess){
-                model.addAttribute("uResult", "删除成功");
+                model.addAttribute("uResultOk", "删除成功");
             }else {
-                model.addAttribute("uResult","删除失败");
+                model.addAttribute("uResultFail","删除失败");
             }
             //TODO isSuccess is not fully used!
             List<User> list=connector.getAllUsers();
@@ -111,7 +131,6 @@ public class UserViewController {
         }catch (SQLException e){
             logger.warning(e.toString());
         }
-
         return "../../include/allUsers";
     }
 

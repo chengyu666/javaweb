@@ -242,4 +242,78 @@ public class DBConnector {
         }
         return false;
     }
+    public boolean removeCodeByCode(String code) throws SQLException {
+        refreshConnection();
+        if (connection != null) {
+            logger.info("connected!");
+            Statement stmt = connection.createStatement();
+            String sql = "DELETE FROM code WHERE code='" + code+"'";
+            int r = stmt.executeUpdate(sql);
+            logger.info("changed rows:" + r);
+            if (r == 1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public boolean updateCodeMessage(String code, String newMessage) throws SQLException{
+        refreshConnection();
+        if (connection != null) {
+            logger.info("connected!");
+            Statement stmt = connection.createStatement();
+            //TODO update time
+            String sql = "UPDATE code SET message='" + newMessage + "' WHERE code='" + code+"'";
+            int r = stmt.executeUpdate(sql);
+            logger.info("changed rows:" + r);
+            if (r == 1) {
+                logger.info("update message success!");
+                return true;
+            } else {
+                logger.info("update message fail!");
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public boolean addUser(String name, String password, String expire) throws SQLException{
+        refreshConnection();
+        if(connection!=null){
+            Statement stmt = connection.createStatement();
+            String sql="INSERT INTO user " +
+                    "(name,password,expiredate) VALUES " +
+                    "('"+name+"','"+password+"','"+expire+"')";
+            int r=stmt.executeUpdate(sql);
+            if (r == 1) {
+                logger.info("add user success!");
+                return true;
+            } else {
+                logger.info("add user fail!");
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public boolean addCode(String code, String message)throws SQLException{
+        refreshConnection();
+        if(connection!=null){
+            Statement stmt = connection.createStatement();
+            String sql="INSERT INTO code " +
+                    "(code,message) VALUES " +
+                    "('"+code+"','"+message+"')";
+            int r=stmt.executeUpdate(sql);
+            if (r == 1) {
+                logger.info("add code success!");
+                return true;
+            } else {
+                logger.info("add code fail!");
+                return false;
+            }
+        }
+        return false;
+    }
 }

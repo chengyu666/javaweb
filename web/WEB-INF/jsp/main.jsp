@@ -17,6 +17,7 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/login.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/include.css">
 </head>
 <body>
 
@@ -33,7 +34,7 @@
                 <span class="glyphicon glyphicon-user"></span>${user.name}
                 ID:<i id="userid">${user.id}</i>
                 <c:if test="${user.role eq 'a'}" var="isAdmin">
-                    <p>角色：管理员</p>
+                    <p>角色：<i id="userrole">管理员</i></p>
                 </c:if>
                 <c:if test="${not isAdmin}">
                     <p>角色：普通用户</p>
@@ -84,6 +85,10 @@
                             <li onclick="changePage('${pageContext.request.contextPath}/include/searchUser.jsp')"
                                 class="list-group-item btn btn-default btn-lg btn-block text-left">
                                 <span class="glyphicon glyphicon-search"></span>查询特定用户
+                            </li>
+                            <li onclick="changePage('${pageContext.request.contextPath}/manageCodes')"
+                                class="list-group-item btn btn-default btn-lg btn-block text-left">
+                                <span class="glyphicon glyphicon-list-alt"></span>管理所有代码
                             </li>
                         </c:if>
                     </ul>

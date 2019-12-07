@@ -21,15 +21,18 @@
     <script type="text/javascript">
         function removeUser(id) {
             if(confirm("确认删除ID为"+id+"的用户？")){
-                const rightContent = $("#right-content");
-                rightContent.empty();
-                rightContent.load("${pageContext.request.contextPath}/removeUser?id="+id);
+                changePage("${pageContext.request.contextPath}/removeUser?id="+id);
             }
         }
     </script>
     <div class="panel-body">
-        <p class="result-ok">${uResult}</p>
-        <p>TODO here</p>
+        <button class="btn btn-primary"
+                onclick="changePage('${pageContext.request.contextPath}/include/addUser.jsp')">
+            <span class="glyphicon glyphicon-plus"></span>添加用户
+        </button>
+        <br><br>
+        <p class="result-ok">${uResultOk}</p>
+        <p class="result-fail">${uResultFail}</p>
         <table width="100%" class="table table-bordered table-striped">
             <tr>
                 <td>用户ID</td>
@@ -57,7 +60,6 @@
                 </tr>
             </c:forEach>
         </table>
-
     </div>
 </div>
 </body>
