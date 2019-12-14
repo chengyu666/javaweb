@@ -1,8 +1,7 @@
-package chengyu.printer.controller;
+package chengyu.javaweb.controller;
 
-import chengyu.printer.model.Code;
-import chengyu.printer.model.DBConnector;
-import chengyu.printer.model.User;
+import chengyu.javaweb.model.Code;
+import chengyu.javaweb.model.DBConnector;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;

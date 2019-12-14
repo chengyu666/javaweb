@@ -18,7 +18,7 @@
 </head>
 <body>
 <div class="title">
-    <h2>3D打印机错误代码查询系统<small><p>Version ${version}</p></small></h2>
+    <h2>3D打印机销售系统<small><p>Version ${version}</p></small></h2>
 </div>
 <div class="panel panel-default" id="login-box">
     <div class="panel-heading">

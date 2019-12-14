@@ -25,7 +25,7 @@
     <table>
         <td class="td-title">
             <h2>
-                3D打印机错误代码查询系统
+                3D打印机销售系统
                 <small><p>Version ${version}</p></small>
             </h2>
         </td>

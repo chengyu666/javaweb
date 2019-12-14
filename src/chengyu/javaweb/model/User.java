@@ -1,4 +1,4 @@
-package chengyu.printer.model;
+package chengyu.javaweb.model;
 
 import java.util.Date;
 

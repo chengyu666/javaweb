@@ -1,6 +1,4 @@
-package chengyu.printer.model;
-
-import org.springframework.beans.factory.annotation.Value;
+package chengyu.javaweb.model;
 
 import java.sql.*;
 import java.util.ArrayList;

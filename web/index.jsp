@@ -8,9 +8,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
   <head>
-    <title>$Title$</title>
+    <title>你找错地方了</title>
   </head>
   <body>
-  here is index.jsp
+  nothing here.
+  here's the login page:
+  <a href="${pageContext.request.contextPath}/login">login</a>
   </body>
 </html>
