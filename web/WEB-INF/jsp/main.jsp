@@ -38,8 +38,8 @@
                 </c:if>
                 <c:if test="${not isAdmin}">
                     <p>角色：普通用户</p>
-                    <p>使用期限：<fmt:formatDate value="${user.expire}" pattern="yyyy年MM月dd日"/></p>
                 </c:if>
+                <p>注册日期：<fmt:formatDate value="${user.signup}" pattern="yyyy年MM月dd日"/></p>
             </small>
         </td>
     </table>
@@ -62,15 +62,15 @@
                     <ul class="list-group">
                         <li onclick="changePage('${pageContext.request.contextPath}/include/introduce.jsp')"
                             class="list-group-item btn btn-default btn-lg btn-block text-left">
-                            <span class="glyphicon glyphicon-star"></span>查询系统介绍
+                            <span class="glyphicon glyphicon-star"></span>查看系统介绍
                         </li>
-                        <li onclick="changePage('${pageContext.request.contextPath}/include/searchCode.jsp')"
+                        <li onclick="changePage('${pageContext.request.contextPath}/include/searchPrinter.jsp')"
                             class="list-group-item btn btn-default btn-lg btn-block text-left">
-                            <span class="glyphicon glyphicon-search"></span>查询错误代码
+                            <span class="glyphicon glyphicon-search"></span>查询特定型号
                         </li>
-                        <li onclick="changePage('${pageContext.request.contextPath}/allCodes')"
+                        <li onclick="changePage('${pageContext.request.contextPath}/allPrinters')"
                             class="list-group-item btn btn-default btn-lg btn-block text-left">
-                            <span class="glyphicon glyphicon-th-list"></span>查看所有代码
+                            <span class="glyphicon glyphicon-th-list"></span>查看所有型号
                         </li>
                         <li onclick="changePage('${pageContext.request.contextPath}/include/updatePassword.jsp')"
                             class="list-group-item btn btn-default btn-lg btn-block text-left">
@@ -86,9 +86,9 @@
                                 class="list-group-item btn btn-default btn-lg btn-block text-left">
                                 <span class="glyphicon glyphicon-search"></span>查询特定用户
                             </li>
-                            <li onclick="changePage('${pageContext.request.contextPath}/manageCodes')"
+                            <li onclick="changePage('${pageContext.request.contextPath}/managePrinters')"
                                 class="list-group-item btn btn-default btn-lg btn-block text-left">
-                                <span class="glyphicon glyphicon-list-alt"></span>管理所有代码
+                                <span class="glyphicon glyphicon-list-alt"></span>管理所有型号
                             </li>
                         </c:if>
                     </ul>
@@ -102,7 +102,7 @@
                         <jsp:include page="../../include/introduce.jsp"/>
                     </c:if>
                     <c:if test="${page eq 'search'}">
-                        <jsp:include page="../../include/searchCode.jsp"/>
+                        <jsp:include page="../../include/searchPrinter.jsp"/>
                     </c:if>
                 </div>
             </div>

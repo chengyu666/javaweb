@@ -20,8 +20,8 @@
     </div>
     <script type="text/javascript">
         function removeUser(id) {
-            if(confirm("确认删除ID为"+id+"的用户？")){
-                changePage("${pageContext.request.contextPath}/removeUser?id="+id);
+            if (confirm("确认删除ID为" + id + "的用户？")) {
+                changePage("${pageContext.request.contextPath}/removeUser?id=" + id);
             }
         }
     </script>
@@ -38,7 +38,7 @@
                 <td>用户ID</td>
                 <td>用户名称</td>
                 <td>角色</td>
-                <td>过期日期</td>
+                <td>注册日期</td>
                 <td>操作</td>
             </tr>
             <%--@elvariable id="userList" type="java.util.List"--%>
@@ -46,20 +46,28 @@
                 <tr>
                     <td>${item.id}</td>
                     <td>${item.name}</td>
-                    <td>${item.role}</td>
-                    <td><fmt:formatDate value="${item.expire}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                     <td>
-                        <c:if test="${item.role eq 'u'}" var="isCommomUser">
+                        <c:if test="${item.role eq 'u'}" var="isCommonUser">
+                            <p>普通用户</p>
+                        </c:if>
+                        <c:if test="${not isCommonUser}">
+                            <p>管理员</p>
+                        </c:if>
+                    </td>
+                    <td><fmt:formatDate value="${item.signup}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                    <td>
+                        <c:if test="${isCommonUser}">
                             <a onclick="changePage('${pageContext.request.contextPath}/gotoEditUser?id=${item.id}')">编辑</a>
                             <a onclick="removeUser(${item.id})">删除</a>
                         </c:if>
-                        <c:if test="${not isCommomUser}">
+                        <c:if test="${not isCommonUser}">
                             无法修改
                         </c:if>
                     </td>
                 </tr>
             </c:forEach>
         </table>
+        <p>---我们是有底线的---</p>
     </div>
 </div>
 </body>

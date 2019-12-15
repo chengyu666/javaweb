@@ -10,29 +10,29 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>所有错误代码信息</title>
+    <title>所有3D打印机信息</title>
 </head>
 <body>
 <div class="panel panel-default">
     <div class="right-title panel-heading">
-        <h3 id="right-title-text">所有错误代码信息</h3>
+        <h3 id="right-title-text">所有3D打印机信息</h3>
     </div>
     <div class="panel-body">
         <table width="100%" class="table table-bordered table-striped">
             <tr>
-                <td>错误代码</td>
-                <td>描述</td>
-                <td>更新日期</td>
+                <td>型号</td>
+                <td>信息</td>
+                <td>价格</td>
             </tr>
-            <c:forEach items="${codeList}" var="item">
+            <c:forEach items="${printerList}" var="item">
                 <tr>
                     <td>${item.code}</td>
-                    <td>${item.message}</td>
-                    <td><fmt:formatDate value="${item.time}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                    <td>${item.information}</td>
+                    <td>${item.price}</td>
                 </tr>
             </c:forEach>
         </table>
-        <p>TODO here</p>
+        <p>---我们是有底线的---</p>
     </div>
 </div>
 </body>

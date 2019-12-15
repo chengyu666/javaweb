@@ -26,12 +26,12 @@
             str=str.replace(/\s+/g,"+");
             str=str.replace(/'/g,"’");
             str=str.replace(/"/g,"”");
-            const info = "确认添加错误代码信息：\n" +
-                "错误代码：" + code + "\n" +
-                "描述：" + message;
+            const info = "确认添加打印机信息：\n" +
+                "型号：" + code + "\n" +
+                "信息：" + message;
             if (confirm(info)) {
-                let path = "${pageContext.request.contextPath}/addCode";
-                path = path + "?code=" + code + "&message=" + str;
+                let path = "${pageContext.request.contextPath}/addPrinter";
+                path = path + "?code=" + code + "&information=" + str;
                 changePage(path);
             }
         }

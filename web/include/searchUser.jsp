@@ -56,9 +56,14 @@
                 <h4>用户名</h4>
                 <p>${userInfo.name}</p>
                 <h4>角色</h4>
-                <p>${userInfo.role}</p>
-                <h4>使用期限</h4>
-                <p>${userInfo.expire}</p>
+                <c:if test="${userInfo.role eq 'u'}" var="isCommonUser">
+                    <p>普通用户</p>
+                </c:if>
+                <c:if test="${not isCommonUser}">
+                    <p>管理员</p>
+                </c:if>
+                <h4>注册日期</h4>
+                <p>${userInfo.signup}</p>
                 <h4>操作</h4>
                 <c:if test="${userInfo.role eq 'a'}" var="infoIsAdmin">
                     无法修改管理员信息！

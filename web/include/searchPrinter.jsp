@@ -15,7 +15,7 @@
 <body>
 <div class="panel panel-default">
     <div class="right-title panel-heading">
-        <h3 id="right-title-text">搜索代码</h3>
+        <h3 id="right-title-text">按型号搜索</h3>
     </div>
     <script type="text/javascript">
         function getSearchResult() {
@@ -23,12 +23,12 @@
             //alert(input);
             const rightContent = $("#right-content");
             rightContent.empty();
-            rightContent.load("${pageContext.request.contextPath}/searchCode?input=" + input);
+            rightContent.load("${pageContext.request.contextPath}/searchPrinter?input=" + input);
         }
     </script>
     <div class="panel-body">
         <div id="search-bar">
-            <p>输入错误代码：</p><input type="text" name="code" placeholder="例如：E0001" id="input">
+            <p>输入型号：</p><input type="text" name="code" placeholder="例如：PT001" id="input">
             <button onclick="$('#input').val('')" class="btn btn-primary">
                 <span class="glyphicon glyphicon-remove"></span>
             </button>
@@ -38,18 +38,18 @@
         </div>
         <br>
         <div id="search-result">
-            <c:if test="${code eq null}" var="flag1">
+            <c:if test="${printer eq null}" var="flag1">
             </c:if>
-            <c:if test="${code.code eq 'E0000'}" var="flag2">
+            <c:if test="${printer.code eq 'E0000'}" var="flag2">
                 无信息
             </c:if>
             <c:if test="${not flag1 and not flag2}">
-                <h4>错误代码</h4>
-                <p>${code.code}</p>
+                <h4>型号</h4>
+                <p>${printer.code}</p>
                 <h4>描述</h4>
-                <p>${code.message}</p>
-                <h4>更新日期</h4>
-                <p>${code.time}</p>
+                <p>${printer.information}</p>
+                <h4>价格</h4>
+                <p>${printer.price}</p>
             </c:if>
         </div>
     </div>

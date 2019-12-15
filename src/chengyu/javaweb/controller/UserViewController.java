@@ -40,6 +40,7 @@ public class UserViewController {
         return "../../include/allUsers";
     }
 
+    /*
     @RequestMapping("/editUserExpire")
     public String editUserExpire(HttpServletRequest request, Model model){
         String idStr=request.getParameter("id");
@@ -58,7 +59,7 @@ public class UserViewController {
             logger.warning(e.toString());
         }
         return "../../include/editUser";
-    }
+    }*/
 
     @RequestMapping("/editUserName")
     public String editUserName(HttpServletRequest request, Model model){
@@ -85,6 +86,7 @@ public class UserViewController {
         String userId=request.getParameter("id");
         try{
             User user = connector.getUserById(userId);
+            logger.info(user.toString());
             model.addAttribute("userInfo",user);
         }catch(SQLException e){
             logger.warning(e.toString());

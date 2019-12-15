@@ -23,12 +23,6 @@
                 changePage("${pageContext.request.contextPath}/editUserName?id=${userInfo.id}&newName="+newName);
             }
         }
-        function updateExpire() {
-            const newExpire = $("#input-new-expire").val();
-            if(confirm("确认将使用期限由：\n${userInfo.expire}\n修改为：\n"+newExpire)){
-                changePage("${pageContext.request.contextPath}/editUserExpire?id=${userInfo.id}&newExpire="+newExpire);
-            }
-        }
     </script>
     <div class="panel-body">
         <div id="search-result">
@@ -43,13 +37,8 @@
             </button>
             <p class="result-ok">${nameResultOk}</p>
             <p class="result-fail">${nameResultFail}</p>
-            <h4>使用期限：${userInfo.expire}</h4>
-            选择新的使用期限：<input type="date" name="newExpire" id="input-new-expire">
-            <button onclick="updateExpire()" class="btn btn-primary">
-                <span class="glyphicon glyphicon-send"></span>
-            </button>
-            <p class="result-ok">${expireResultOk}</p>
-            <p class="result-fail">${expireResultFail}</p>
+            <h4>注册日期：${userInfo.signup}</h4>
+            <small>不可修改</small>
         </div>
     </div>
 </div>

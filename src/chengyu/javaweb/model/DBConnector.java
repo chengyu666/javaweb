@@ -8,9 +8,9 @@ import java.util.logging.Logger;
 
 public class DBConnector {
     Logger logger = Logger.getLogger("logger");
-    private static final String URL = "jdbc:mysql://localhost:3306/s_e?useSSL=false";
-    private static final String USER = "rjgc";
-    private static final String PASSWORD = "rjgc123";
+    private static final String URL = "jdbc:mysql://localhost:3306/javaweb?useSSL=false";
+    private static final String USER = "chengyu";
+    private static final String PASSWORD = "1998";
     private Connection connection;
 
     private void refreshConnection() {
@@ -37,7 +37,7 @@ public class DBConnector {
                 String password = rs.getString("password");
                 String name = rs.getString("name");
                 Integer id = rs.getInt("id");
-                Date expire = rs.getDate("expiredate");
+                Date expire = rs.getDate("signup");
                 String role = rs.getString("role");
                 System.out.println("password in DB:" + password);
                 if (password.equals(_password)) {
@@ -64,10 +64,10 @@ public class DBConnector {
             while (rs.next()) {
                 String name = rs.getString("name");
                 Integer id = rs.getInt("id");
-                Date expire = rs.getDate("expiredate");
+                Date signup = rs.getDate("signup");
                 String role = rs.getString("role");
-                System.out.println(name + " ID:" + id + " expiredate:" + expire);
-                list.add(new User(id, name, expire, role));
+                System.out.println(name + " ID:" + id + " expiredate:" + signup);
+                list.add(new User(id, name, signup, role));
             }
             connection.close();
         } else {
@@ -76,25 +76,21 @@ public class DBConnector {
         return list;
     }
 
-    public List<Code> getAllCodes() throws SQLException {
-        System.out.println("getting all code info");
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (Exception e) {
-            logger.warning("in getAllCodes:" + e);
-        }
-        Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-        List<Code> list = new ArrayList<Code>();
+    public List<Printer> getAllPrinters() throws SQLException {
+        System.out.println("getting all printer info");
+        refreshConnection();
+        Printer printer = new Printer();
+        List<Printer> list = new ArrayList<Printer>();
         if (connection != null) {
             System.out.println("connected!");
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM code");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM printer");
             while (rs.next()) {
                 String code = rs.getString("code");
-                Date time = rs.getTimestamp("time");
-                String message = rs.getString("message");
-                //System.out.println(code+" des:"+message+" updatetime:"+time);
-                list.add(new Code(code, message, time));
+                Integer price = rs.getInt("price");
+                String information = rs.getString("information");
+                printer = new Printer(code, information, price);
+                list.add(printer);
             }
             connection.close();
         } else {
@@ -103,21 +99,21 @@ public class DBConnector {
         return list;
     }
 
-    public Code getInfoByCode(String inputCode) throws SQLException {
-        logger.fine("getting code info");
+    public Printer getPrinterByCode(String inputCode) throws SQLException {
+        logger.fine("getting printer info");
         refreshConnection();
-        Code errorCode = new Code();
+        Printer printerCode = new Printer();
         if (connection != null) {
             logger.info("connected!");
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM code");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM printer");
             while (rs.next()) {
                 String code = rs.getString("code");
-                Date time = rs.getTimestamp("time");
-                String message = rs.getString("message");
+                Integer price = rs.getInt("price");
+                String information = rs.getString("information");
                 if (code.equals(inputCode)) {
-                    errorCode.update(code, message, time);
-                    logger.info(errorCode.toString());
+                    printerCode.update(code, information, price);
+                    logger.info(printerCode.toString());
                     logger.info("find the code!");
                 }
             }
@@ -125,7 +121,7 @@ public class DBConnector {
         } else {
             logger.warning("connection fail !");
         }
-        return errorCode;
+        return printerCode;
     }
 
     public User getUserById(String inputId) throws SQLException {
@@ -137,14 +133,13 @@ public class DBConnector {
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM user");
             while (rs.next()) {
-
                 String name = rs.getString("name");
                 Integer id = rs.getInt("id");
-                Date expire = rs.getDate("expiredate");
+                Date signup = rs.getDate("signup");
                 String role = rs.getString("role");
                 logger.info("id in db:" + id);
                 if (id.toString().equals(inputId)) {
-                    user.update(id, name, expire, role);
+                    user.update(id, name, signup, role);
                     logger.info(user.toString());
                     logger.info("find the user!");
                 }
@@ -200,7 +195,7 @@ public class DBConnector {
         }
         return false;
     }
-    public boolean updateUserExpire(Integer id, String newExpire){
+    /*public boolean updateUserExpire(Integer id, String newExpire){
         refreshConnection();
         if (connection != null) {
             logger.info("connected!new expire:"+newExpire);
@@ -222,7 +217,7 @@ public class DBConnector {
             }
         }
         return false;
-    }
+    }*/
 
     public boolean removeUserById(Integer id) throws SQLException {
         refreshConnection();
@@ -240,12 +235,13 @@ public class DBConnector {
         }
         return false;
     }
-    public boolean removeCodeByCode(String code) throws SQLException {
+
+    public boolean removePrinterByCode(String code) throws SQLException {
         refreshConnection();
         if (connection != null) {
             logger.info("connected!");
             Statement stmt = connection.createStatement();
-            String sql = "DELETE FROM code WHERE code='" + code+"'";
+            String sql = "DELETE FROM printer WHERE code='" + code + "'";
             int r = stmt.executeUpdate(sql);
             logger.info("changed rows:" + r);
             if (r == 1) {
@@ -257,34 +253,33 @@ public class DBConnector {
         return false;
     }
 
-    public boolean updateCodeMessage(String code, String newMessage) throws SQLException{
+    public boolean updatePrinterInfo(String code, String newInformation) throws SQLException {
         refreshConnection();
         if (connection != null) {
             logger.info("connected!");
             Statement stmt = connection.createStatement();
-            //TODO update time
-            String sql = "UPDATE code SET message='" + newMessage + "' WHERE code='" + code+"'";
+            String sql = "UPDATE printer SET information='" + newInformation + "' WHERE code='" + code + "'";
             int r = stmt.executeUpdate(sql);
             logger.info("changed rows:" + r);
             if (r == 1) {
-                logger.info("update message success!");
+                logger.info("update information success!");
                 return true;
             } else {
-                logger.info("update message fail!");
+                logger.info("update information fail!");
                 return false;
             }
         }
         return false;
     }
 
-    public boolean addUser(String name, String password, String expire) throws SQLException{
+    public boolean addUser(String name, String password, String expire) throws SQLException {
         refreshConnection();
-        if(connection!=null){
+        if (connection != null) {
             Statement stmt = connection.createStatement();
-            String sql="INSERT INTO user " +
-                    "(name,password,expiredate) VALUES " +
-                    "('"+name+"','"+password+"','"+expire+"')";
-            int r=stmt.executeUpdate(sql);
+            String sql = "INSERT INTO user " +
+                    "(name,password) VALUES " +
+                    "('" + name + "','" + password + "')";
+            int r = stmt.executeUpdate(sql);
             if (r == 1) {
                 logger.info("add user success!");
                 return true;
@@ -296,19 +291,19 @@ public class DBConnector {
         return false;
     }
 
-    public boolean addCode(String code, String message)throws SQLException{
+    public boolean addPrinter(String code, String information) throws SQLException {
         refreshConnection();
-        if(connection!=null){
+        if (connection != null) {
             Statement stmt = connection.createStatement();
-            String sql="INSERT INTO code " +
-                    "(code,message) VALUES " +
-                    "('"+code+"','"+message+"')";
-            int r=stmt.executeUpdate(sql);
+            String sql = "INSERT INTO printer " +
+                    "(code,information) VALUES " +
+                    "('" + code + "','" + information + "')";
+            int r = stmt.executeUpdate(sql);
             if (r == 1) {
-                logger.info("add code success!");
+                logger.info("add printer success!");
                 return true;
             } else {
-                logger.info("add code fail!");
+                logger.info("add printer fail!");
                 return false;
             }
         }

@@ -25,24 +25,25 @@
             str=str.replace(/\s+/g,"+");
             str=str.replace(/'/g,"’");
             str=str.replace(/"/g,"”");
-            if(confirm("确认将描述由：\n${codeInfo.message}\n修改为：\n"+str)){
-                changePage("${pageContext.request.contextPath}/editCodeMessage?code=${codeInfo.code}&newMessage="+str);
+            if(confirm("确认将信息由：\n${printerInfo.information}\n修改为：\n"+str)){
+                changePage("${pageContext.request.contextPath}/editPrinterInfo?code=${printerInfo.code}&newInfo="+str);
             }
         }
     </script>
     <div class="panel-body">
         <div id="search-result">
-            <h4>错误代码：${codeInfo.code}</h4>
+            <h4>型号：${printerInfo.code}</h4>
             <small>不可更改</small>
-            <h4>描述：${codeInfo.message}</h4>
-            输入新的描述：<input type="text" size="35" value="${codeInfo.message}" name="newDescription" id="input-new-desc">
+            <h4>信息：${printerInfo.information}</h4>
+            输入新的信息：<input type="text" size="35" value="${printerInfo.information}" name="newDescription" id="input-new-desc">
             <button onclick="updateDesc()" class="btn btn-primary">
                 <span class="glyphicon glyphicon-send"></span>
             </button>
             <p class="result-ok">${descResultOk}</p>
             <p class="result-fail">${descResultFail}</p>
-            <h4>更新时间：${codeInfo.time}</h4>
-            <small>不可自行更改</small>
+            <h4>价格：${printerInfo.price}</h4>
+            <small>待添加修改功能</small>
+            <!--TODO-->
         </div>
     </div>
 </div>
