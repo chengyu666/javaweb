@@ -1,5 +1,7 @@
 package chengyu.javaweb.model;
 
+import org.springframework.beans.BeanUtils;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,10 +41,11 @@ public class DBConnector {
                 Integer id = rs.getInt("id");
                 Date expire = rs.getDate("signup");
                 String role = rs.getString("role");
+                Integer money = rs.getInt("money");
                 System.out.println("password in DB:" + password);
                 if (password.equals(_password)) {
                     //password is correct
-                    user = new User(id, name, expire, role);
+                    user = new User(id, name, expire, role, money);
                 }
                 System.out.println(user.toString());
             }
@@ -54,7 +57,7 @@ public class DBConnector {
     }
 
     public List<User> getAllUsers() throws SQLException {
-        System.out.println("getting user info");
+        System.out.println("getting all user info");
         refreshConnection();
         List<User> list = new ArrayList<User>();
         if (connection != null) {
@@ -66,8 +69,9 @@ public class DBConnector {
                 Integer id = rs.getInt("id");
                 Date signup = rs.getDate("signup");
                 String role = rs.getString("role");
-                System.out.println(name + " ID:" + id + " expiredate:" + signup);
-                list.add(new User(id, name, signup, role));
+                Integer money = rs.getInt("money");
+                System.out.println(name + " ID:" + id + " name:" + name);
+                list.add(new User(id, name, signup, role, money));
             }
             connection.close();
         } else {
@@ -128,23 +132,17 @@ public class DBConnector {
         logger.info("inputId:" + inputId);
         refreshConnection();
         User user = new User();
-        if (connection != null) {
-            logger.info("connected!");
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM user");
-            while (rs.next()) {
-                String name = rs.getString("name");
-                Integer id = rs.getInt("id");
-                Date signup = rs.getDate("signup");
-                String role = rs.getString("role");
-                logger.info("id in db:" + id);
-                if (id.toString().equals(inputId)) {
-                    user.update(id, name, signup, role);
+        List<User> list = getAllUsers();
+        if (list != null) {
+            for (User u : list) {
+                logger.info("id in db:" + u.getId());
+                if (u.getId().toString().equals(inputId)) {
+                    BeanUtils.copyProperties(u, user);
                     logger.info(user.toString());
                     logger.info("find the user!");
+                    break;
                 }
             }
-            connection.close();
         } else {
             logger.warning("connection fail !");
         }
@@ -172,6 +170,27 @@ public class DBConnector {
                     logger.info("wrong password!");
                     return false;
                 }
+            }
+        }
+        return false;
+    }
+
+    public boolean updateMoney(Integer id, String newMoney) throws SQLException {
+        refreshConnection();
+        if (connection != null) {
+            logger.info("connected!");
+            Statement stmt = connection.createStatement();
+            String sql = "SELECT * FROM user where id=?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String money = rs.getString("money");
+                logger.info("old money:" + money);
+                sql = "UPDATE user SET money=" + newMoney + " WHERE id=" + id.toString();
+                int r = stmt.executeUpdate(sql);
+                logger.info("changed rows:" + r);
+                return true;
             }
         }
         return false;
@@ -272,13 +291,32 @@ public class DBConnector {
         return false;
     }
 
-    public boolean addUser(String name, String password, String expire) throws SQLException {
+    public boolean updatePrinterPrice(String code, String newPrice) throws SQLException {
+        refreshConnection();
+        if (connection != null) {
+            logger.info("connected!");
+            Statement stmt = connection.createStatement();
+            String sql = "UPDATE printer SET price=" + newPrice + " WHERE code='" + code + "'";
+            int r = stmt.executeUpdate(sql);
+            logger.info("changed rows:" + r);
+            if (r == 1) {
+                logger.info("update price success!");
+                return true;
+            } else {
+                logger.info("update price fail!");
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public boolean addUser(String name, String password, String money) throws SQLException {
         refreshConnection();
         if (connection != null) {
             Statement stmt = connection.createStatement();
             String sql = "INSERT INTO user " +
-                    "(name,password) VALUES " +
-                    "('" + name + "','" + password + "')";
+                    "(name,password,money) VALUES " +
+                    "('" + name + "','" + password + "'," + money + ")";
             int r = stmt.executeUpdate(sql);
             if (r == 1) {
                 logger.info("add user success!");
@@ -291,13 +329,13 @@ public class DBConnector {
         return false;
     }
 
-    public boolean addPrinter(String code, String information) throws SQLException {
+    public boolean addPrinter(String code, String information, String price) throws SQLException {
         refreshConnection();
         if (connection != null) {
             Statement stmt = connection.createStatement();
             String sql = "INSERT INTO printer " +
-                    "(code,information) VALUES " +
-                    "('" + code + "','" + information + "')";
+                    "(code,information,price) VALUES " +
+                    "('" + code + "','" + information + "'," + price + ")";
             int r = stmt.executeUpdate(sql);
             if (r == 1) {
                 logger.info("add printer success!");

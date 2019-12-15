@@ -29,20 +29,32 @@
                 changePage("${pageContext.request.contextPath}/editPrinterInfo?code=${printerInfo.code}&newInfo="+str);
             }
         }
+        function updatePrice(){
+            const newPrice=$("#input-new-price").val();
+            if(confirm("确认将价格由：\n${printerInfo.price}\n修改为：\n"+newPrice)){
+                changePage("${pageContext.request.contextPath}/editPrinterPrice?code=${printerInfo.code}&newPrice="+newPrice);
+            }
+        }
     </script>
     <div class="panel-body">
         <div id="search-result">
             <h4>型号：${printerInfo.code}</h4>
             <small>不可更改</small>
             <h4>信息：${printerInfo.information}</h4>
-            输入新的信息：<input type="text" size="35" value="${printerInfo.information}" name="newDescription" id="input-new-desc">
+            输入新的信息：
+            <input type="text" size="35" value="${printerInfo.information}" id="input-new-desc">
             <button onclick="updateDesc()" class="btn btn-primary">
                 <span class="glyphicon glyphicon-send"></span>
             </button>
             <p class="result-ok">${descResultOk}</p>
             <p class="result-fail">${descResultFail}</p>
             <h4>价格：${printerInfo.price}</h4>
-            <small>待添加修改功能</small>
+            输入新的价格：<input type="number" value="${printerInfo.price}" id="input-new-price">
+            <button onclick="updatePrice()" class="btn btn-primary">
+                <span class="glyphicon glyphicon-send"></span>
+            </button>
+            <p class="result-ok">${priceResultOk}</p>
+            <p class="result-fail">${priceResultFail}</p>
             <!--TODO-->
         </div>
     </div>

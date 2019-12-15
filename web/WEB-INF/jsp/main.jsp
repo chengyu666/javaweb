@@ -37,7 +37,7 @@
                     <p>角色：<i id="userrole">管理员</i></p>
                 </c:if>
                 <c:if test="${not isAdmin}">
-                    <p>角色：普通用户</p>
+                    <p>角色：普通用户，余额：${user.money}</p>
                 </c:if>
                 <p>注册日期：<fmt:formatDate value="${user.signup}" pattern="yyyy年MM月dd日"/></p>
             </small>
@@ -58,6 +58,7 @@
                         rightContent.load(pagePath);
                     }
                 </script>
+                <input id="id-hide" value="${user.id}" type="hidden"/>
                 <div class="panel-body">
                     <ul class="list-group">
                         <li onclick="changePage('${pageContext.request.contextPath}/include/introduce.jsp')"
@@ -75,6 +76,10 @@
                         <li onclick="changePage('${pageContext.request.contextPath}/include/updatePassword.jsp')"
                             class="list-group-item btn btn-default btn-lg btn-block text-left">
                             <span class="glyphicon glyphicon-lock"></span>修改登陆密码
+                        </li>
+                        <li onclick="changePage('${pageContext.request.contextPath}/include/recharge.jsp')"
+                            class="list-group-item btn btn-default btn-lg btn-block text-left">
+                            <span class="glyphicon glyphicon-usd"></span>充值账户余额
                         </li>
                         <c:if test="${isAdmin}">
                             管理员功能：

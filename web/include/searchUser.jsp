@@ -62,6 +62,8 @@
                 <c:if test="${not isCommonUser}">
                     <p>管理员</p>
                 </c:if>
+                <h4>余额</h4>
+                <p>${userInfo.money}￥</p>
                 <h4>注册日期</h4>
                 <p>${userInfo.signup}</p>
                 <h4>操作</h4>

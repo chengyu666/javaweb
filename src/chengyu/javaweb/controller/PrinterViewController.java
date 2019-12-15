@@ -20,8 +20,9 @@ public class PrinterViewController {
     public String addPrinter(HttpServletRequest request, Model model){
         String code=request.getParameter("code");
         String information=request.getParameter("information");
+        String priceStr=request.getParameter("price");
         try{
-            boolean isSuccess=connector.addPrinter(code,information);
+            boolean isSuccess=connector.addPrinter(code,information,priceStr);
             if(isSuccess){
                 model.addAttribute("uResultOk", "添加打印机信息成功!");
             }else {
@@ -48,7 +49,27 @@ public class PrinterViewController {
                 model.addAttribute("descResultFail","机器信息修改失败，请重试");
             }
             Printer printerInfo = connector.getPrinterByCode(code);
-            model.addAttribute("codeInfo", printerInfo);
+            model.addAttribute("printerInfo", printerInfo);
+        }catch(SQLException e){
+            logger.warning(e.toString());
+        }
+        return "../../include/editPrinter";
+    }
+
+    @RequestMapping("/editPrinterPrice")
+    public String editPrinterPrice(HttpServletRequest request, Model model){
+        String code=request.getParameter("code");
+        String newPrice=request.getParameter("newPrice");
+        logger.info("Updating price of "+code+"\n new price:"+newPrice);
+        try{
+            boolean isSuccess=connector.updatePrinterPrice(code,newPrice);
+            if(isSuccess){
+                model.addAttribute("priceResultOk", "机器信息修改成功!");
+            }else {
+                model.addAttribute("priceResultFail","机器信息修改失败，请重试");
+            }
+            Printer printerInfo = connector.getPrinterByCode(code);
+            model.addAttribute("printerInfo", printerInfo);
         }catch(SQLException e){
             logger.warning(e.toString());
         }

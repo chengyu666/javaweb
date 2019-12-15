@@ -15,7 +15,7 @@
 <body>
 <div class="panel panel-default">
     <div class="right-title panel-heading">
-        <h3 id="right-title-text">所有型号信息</h3>
+        <h3 id="right-title-text">所有3D打印机型号信息</h3>
     </div>
     <script type="text/javascript">
         function removePrinter(code){

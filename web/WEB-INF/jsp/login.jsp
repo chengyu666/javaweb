@@ -31,7 +31,6 @@
         <form action="${pageContext.request.contextPath}/login/try" method="post" style="padding-top:-700px;">
             <p>用户名</p><input type="text" name="name" value=""><br>
             <p>密码</p><input type="password" name="password" value=""><br><br>
-
             <div>
                 <button type="submit" value="Submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> 登陆</button>
                 ........

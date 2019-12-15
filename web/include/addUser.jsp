@@ -19,14 +19,14 @@
         function addUser() {
             const name = $("#userName").val();
             const password = $("#password").val();
-            const expire = $("#expire").val();
+            const money = $("#money").val();
             const str = "确认添加普通用户：\n" +
                 "用户名：" + name + "\n" +
                 "密码：" + password + "\n" +
-                "使用期限：" + expire;
+                "余额：" + money;
             if (confirm(str)) {
                 let path = "${pageContext.request.contextPath}/addUser";
-                path = path + "?name=" + name + "&password=" + password + "&expire=" + expire;
+                path = path + "?name=" + name + "&password=" + password + "&money=" + money;
                 changePage(path);
             }
         }
@@ -37,8 +37,8 @@
             <input type="text" id="userName">
             <p>输入密码</p>
             <input type="text" id="password">
-            <p>选择使用期限</p>
-            <input type="date" id="expire">
+            <p>输入初始余额</p>
+            <input type="number" id="money">
             <br><br>
             <div onclick="addUser()" class="btn btn-primary">
                 <span class="glyphicon glyphicon-send"></span>提交

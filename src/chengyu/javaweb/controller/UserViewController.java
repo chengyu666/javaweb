@@ -24,17 +24,22 @@ public class UserViewController {
     public String addUser(HttpServletRequest request, Model model){
         String name=request.getParameter("name");
         String password=request.getParameter("password");
-        String expire=request.getParameter("expire");
+        String money=request.getParameter("money");
         try{
-            boolean isSuccess=connector.addUser(name,password,expire);
+            boolean isSuccess=connector.addUser(name,password,money);
             if(isSuccess){
                 model.addAttribute("uResultOk", "添加用户成功!");
             }else {
                 model.addAttribute("uResultFail","添加用户失败，请重试");
             }
+        }catch(SQLException e){
+            logger.warning(e.toString());
+            model.addAttribute("uResultFail","添加用户失败，请重试");
+        }
+        try{
             List<User> list=connector.getAllUsers();
             model.addAttribute("userList", list);
-        }catch(SQLException e){
+        }catch (SQLException e){
             logger.warning(e.toString());
         }
         return "../../include/allUsers";
@@ -77,6 +82,28 @@ public class UserViewController {
             model.addAttribute("userInfo",user);
         }catch(SQLException e){
             logger.warning(e.toString());
+            model.addAttribute("nameResultFail","用户名修改失败，请重试");
+        }
+        return "../../include/editUser";
+    }
+
+    @RequestMapping("/editUserMoney")
+    public String editUserMoney(HttpServletRequest request, Model model){
+        String idStr=request.getParameter("id");
+        String newMoney=request.getParameter("newMoney");
+        Integer id= Integer.valueOf(idStr);
+        try{
+            boolean isSuccess=connector.updateMoney(id,newMoney);
+            if(isSuccess){
+                model.addAttribute("moneyResultOk", "余额修改成功!");
+            }else {
+                model.addAttribute("moneyResultFail","余额修改失败，请重试");
+            }
+            User user = connector.getUserById(idStr);
+            model.addAttribute("userInfo",user);
+        }catch(SQLException e){
+            logger.warning(e.toString());
+            model.addAttribute("moneyResultFail","余额修改失败，请重试");
         }
         return "../../include/editUser";
     }
@@ -112,6 +139,7 @@ public class UserViewController {
             }
         }catch (SQLException e){
             logger.warning(e.toString());
+            model.addAttribute("uResult","修改失败，请重试");
         }
         return "../../include/updatePassword";
     }
@@ -132,6 +160,7 @@ public class UserViewController {
             model.addAttribute("userList", list);
         }catch (SQLException e){
             logger.warning(e.toString());
+            model.addAttribute("uResultFail","删除失败");
         }
         return "../../include/allUsers";
     }
@@ -149,6 +178,7 @@ public class UserViewController {
         }
         return "../../include/searchUser";
     }
+
     @RequestMapping("/allUsers")
     public String showAllUsers(Model model){
         try{

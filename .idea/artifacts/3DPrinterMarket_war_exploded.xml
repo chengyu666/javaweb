@@ -1,8 +1,7 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="3DPrinterManual:war exploded">
-    <output-path>$PROJECT_DIR$/out/artifacts/3DPrinterManual_war_exploded</output-path>
+  <artifact type="exploded-war" name="3DPrinterMarket:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/3DPrinterMarket_war_exploded</output-path>
     <root id="root">
-      <element id="javaee-facet-resources" facet="3DPrinterManual/web/Web" />
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="3DPrinterManual" />
@@ -13,6 +12,7 @@
           <element id="library" level="project" name="mysql:mysql-connector-java:5.1.48" />
         </element>
       </element>
+      <element id="javaee-facet-resources" facet="3DPrinterManual/web/Web" />
     </root>
   </artifact>
 </component>

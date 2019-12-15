@@ -37,9 +37,10 @@
             <tr>
                 <td>用户ID</td>
                 <td>用户名称</td>
-                <td>角色</td>
+                <td style="min-width: 82px;">角色</td>
+                <td>余额</td>
                 <td>注册日期</td>
-                <td>操作</td>
+                <td style="min-width: 123px;">操作</td>
             </tr>
             <%--@elvariable id="userList" type="java.util.List"--%>
             <c:forEach items="${userList}" var="item" varStatus="status">
@@ -54,9 +55,11 @@
                             <p>管理员</p>
                         </c:if>
                     </td>
-                    <td><fmt:formatDate value="${item.signup}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                    <td>${item.money}￥</td>
+                    <td><fmt:formatDate value="${item.signup}" pattern="yyyy-MM-dd"/></td>
                     <td>
                         <c:if test="${isCommonUser}">
+                            <a onclick="changePage('${pageContext.request.contextPath}/searchUser?input=${item.id}')">详情</a>
                             <a onclick="changePage('${pageContext.request.contextPath}/gotoEditUser?id=${item.id}')">编辑</a>
                             <a onclick="removeUser(${item.id})">删除</a>
                         </c:if>

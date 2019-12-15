@@ -1,8 +1,8 @@
 <component name="ArtifactManager">
-  <artifact type="war" name="3DPrinterManual:war">
+  <artifact type="war" name="3DPrinterMarket:war">
     <output-path>$PROJECT_DIR$/out</output-path>
-    <root id="archive" name="3DPrinterManual_war.war">
-      <element id="artifact" artifact-name="3DPrinterManual:war exploded" />
+    <root id="archive" name="3DPrinterMarket_war.war">
+      <element id="artifact" artifact-name="3DPrinterMarket:war exploded" />
       <element id="directory" name="WEB-INF">
         <element id="directory" name="lib">
           <element id="library" level="project" name="Java EE 6-Java EE 6" />

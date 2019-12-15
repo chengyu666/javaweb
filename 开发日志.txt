@@ -1,14 +1,25 @@
 改了包名
 改了tomcat的session超时时间：300min
 新建了javaweb数据库
-==用session制作购物车
 ==全部修改完之前的界面
 -开始
 -修改code类：ok
 -修改controller类：login ok,printerview ok,
--修改jsp：
+-修改jsp：ok
 ==同步到远程git仓库
 -账号chengyu666
 -密码ahhffcy666
 -ok
 ==添加修改价格功能
+-ok
+==添加打印机时可输入价格
+-ok
+==添加余额功能
+-开始
+-ok
+==修改新增用户的界面
+-ok
+==用数据库制作购物车
+-开始
+
+调整了所有用户页的界面

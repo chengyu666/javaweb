@@ -15,7 +15,7 @@
 <body>
 <div class="panel panel-default">
     <div class="right-title panel-heading">
-        <h3 id="right-title-text">所有3D打印机信息</h3>
+        <h3 id="right-title-text">所有3D打印机型号信息</h3>
     </div>
     <div class="panel-body">
         <table width="100%" class="table table-bordered table-striped">
@@ -28,7 +28,7 @@
                 <tr>
                     <td>${item.code}</td>
                     <td>${item.information}</td>
-                    <td>${item.price}</td>
+                    <td>${item.price}￥</td>
                 </tr>
             </c:forEach>
         </table>

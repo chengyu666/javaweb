@@ -21,16 +21,23 @@ public class User {
      */
     private String role;
 
+    /**
+     * 用户余额
+     */
+    private Integer money;
+
     public User() {
     }
 
-    public User(Integer id, String name, Date signup, String role) {
+    public User(Integer id, String name, Date signup, String role, Integer money) {
         this.id = id;
         this.name = name;
         this.signup = signup;
         this.role = role;
+        this.money = money;
     }
-    public void update(Integer id, String name, Date signup, String role){
+
+    public void update(Integer id, String name, Date signup, String role) {
         setSignup(signup);
         setId(id);
         setName(name);
@@ -69,7 +76,20 @@ public class User {
         this.role = role;
     }
 
+    public Integer getMoney() {
+        return money;
+    }
+
+    public void setMoney(Integer money) {
+        this.money = money;
+    }
+
     public String toString() {
-        return "User{id:" + id + ", name:" + name + " signup:" + signup +" role:"+role+ "}";
+        String str = "User{id:" + id +
+                " name:" + name +
+                " signup:" + signup +
+                " role:" + role +
+                " money:" + money + "}";
+        return str;
     }
 }
