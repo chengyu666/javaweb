@@ -1,6 +1,7 @@
 package chengyu.javaweb.controller;
 
 import chengyu.javaweb.model.DBConnector;
+import chengyu.javaweb.model.HistoryItem;
 import chengyu.javaweb.model.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -207,5 +208,12 @@ public class UserViewController {
             logger.warning(e.toString());
         }
         return "../../include/allUsers";
+    }
+
+    @RequestMapping("/viewHistory")
+    public String showHistory(Model model){
+        List<HistoryItem> list=connector.getAllHistory();
+        model.addAttribute("historyList", list);
+        return "../../include/viewHistory";
     }
 }

@@ -106,6 +106,10 @@
                                 class="list-group-item btn btn-default btn-lg btn-block text-left">
                                 <span class="glyphicon glyphicon-list-alt"></span>管理所有型号
                             </li>
+                            <li onclick="changePage('${pageContext.request.contextPath}/viewHistory')"
+                                class="list-group-item btn btn-default btn-lg btn-block text-left">
+                                <span class="glyphicon glyphicon-search"></span>查看浏览日志
+                            </li>
                         </c:if>
                     </ul>
                 </div>

@@ -28,12 +28,11 @@ public class DBConnector {
         User user = new User();
         //id==-1 login fail
         refreshConnection();
-        List<User> list = new ArrayList<User>();
         if (connection != null) {
             //connected
             System.out.println("connected!");
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM user where name=\'" + _name + "\'");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM user where name='" + _name + "'");
             if (rs.next()) {
                 //has user with this name
                 String password = rs.getString("password");
@@ -59,7 +58,7 @@ public class DBConnector {
     public List<User> getAllUsers() throws SQLException {
         System.out.println("getting all user info");
         refreshConnection();
-        List<User> list = new ArrayList<User>();
+        List<User> list = new ArrayList<>();
         if (connection != null) {
             //System.out.println("connected!");
             Statement stmt = connection.createStatement();
@@ -437,5 +436,25 @@ public class DBConnector {
                 }
             }catch (SQLException e){logger.warning(e.toString());}
         }
+    }
+
+    public List<HistoryItem> getAllHistory(){
+        System.out.println("getting all view history");
+        refreshConnection();
+        List<HistoryItem> list=new ArrayList<>();
+        if(connection!=null){
+            try{
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT * FROM viewhistory");
+                while (rs.next()) {
+                    Integer id = rs.getInt("userid");
+                    Timestamp time = rs.getTimestamp("time");
+                    String code = rs.getString("code");
+                    list.add(new HistoryItem(id,code,time));
+                }
+                connection.close();
+            }catch(SQLException e){logger.info(e.toString());}
+        }
+        return list;
     }
 }
