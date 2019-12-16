@@ -25,6 +25,11 @@
             rightContent.empty();
             rightContent.load("${pageContext.request.contextPath}/searchPrinter?input=" + input);
         }
+        function addToCart(code){
+            const id=$("#userid").text();
+            var path="${pageContext.request.contextPath}/cart?id="+id+"&addCode="+code;
+            changePage(path);
+        }
     </script>
     <div class="panel-body">
         <div id="search-bar">
@@ -44,6 +49,9 @@
                 无信息
             </c:if>
             <c:if test="${not flag1 and not flag2}">
+                <button onclick="addToCart('${printer.code}')" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-add"></span>添加至购物车
+                </button>
                 <h4>型号</h4>
                 <p>${printer.code}</p>
                 <h4>描述</h4>

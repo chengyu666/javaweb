@@ -61,7 +61,7 @@ public class DBConnector {
         refreshConnection();
         List<User> list = new ArrayList<User>();
         if (connection != null) {
-            System.out.println("connected!");
+            //System.out.println("connected!");
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM user");
             while (rs.next()) {
@@ -70,7 +70,7 @@ public class DBConnector {
                 Date signup = rs.getDate("signup");
                 String role = rs.getString("role");
                 Integer money = rs.getInt("money");
-                System.out.println(name + " ID:" + id + " name:" + name);
+                //System.out.println(name + " ID:" + id + " name:" + name);
                 list.add(new User(id, name, signup, role, money));
             }
             connection.close();
@@ -108,7 +108,7 @@ public class DBConnector {
         refreshConnection();
         Printer printerCode = new Printer();
         if (connection != null) {
-            logger.info("connected!");
+            //logger.info("connected!");
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM printer");
             while (rs.next()) {
@@ -117,8 +117,8 @@ public class DBConnector {
                 String information = rs.getString("information");
                 if (code.equals(inputCode)) {
                     printerCode.update(code, information, price);
-                    logger.info(printerCode.toString());
-                    logger.info("find the code!");
+                    //logger.info(printerCode.toString());
+                    //logger.info("find the code!");
                 }
             }
             connection.close();
@@ -129,17 +129,17 @@ public class DBConnector {
     }
 
     public User getUserById(String inputId) throws SQLException {
-        logger.info("inputId:" + inputId);
+        //logger.info("inputId:" + inputId);
         refreshConnection();
         User user = new User();
         List<User> list = getAllUsers();
         if (list != null) {
             for (User u : list) {
-                logger.info("id in db:" + u.getId());
+                //logger.info("id in db:" + u.getId());
                 if (u.getId().toString().equals(inputId)) {
                     BeanUtils.copyProperties(u, user);
-                    logger.info(user.toString());
-                    logger.info("find the user!");
+                    //logger.info(user.toString());
+                    //logger.info("find the user!");
                     break;
                 }
             }
@@ -152,7 +152,7 @@ public class DBConnector {
     public boolean updatePassword(Integer id, String oldPassword, String newPassword) throws SQLException {
         refreshConnection();
         if (connection != null) {
-            logger.info("connected!");
+            //logger.info("connected!");
             Statement stmt = connection.createStatement();
             String sql = "SELECT * FROM user where id=?";
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -344,6 +344,69 @@ public class DBConnector {
                 logger.info("add printer fail!");
                 return false;
             }
+        }
+        return false;
+    }
+
+    public List<CartItem> getCartItems(String id){
+        refreshConnection();
+        List<CartItem> list = new ArrayList<>();
+        if(connection!=null){
+            try{
+                System.out.println("connected!");
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT * FROM cart where userid="+id);
+                while (rs.next()) {
+                    String cart=rs.getString("cart");
+                    logger.info("cart:"+cart);
+                    String[] stringList=cart.split(",");
+                    System.out.println("length: "+stringList.length);
+                    if(cart.equals("")){
+                        logger.info("nothing in cart!");
+                        return null;
+                    }
+                    for(String str :stringList){
+                        logger.info(str);
+                        String[] itemArr=str.split("\\.");
+                        logger.info("code:"+itemArr[0]+", number:"+itemArr[1]);
+                        String c=itemArr[0];
+                        Integer n=Integer.valueOf(itemArr[1]);
+                        Integer p=getPrinterByCode(c).getPrice();
+                        list.add(new CartItem(n,c,p));
+                    }
+                }
+                connection.close();
+            }catch (SQLException e){
+                logger.info(e.toString());
+            }
+        }
+        return list;
+    }
+
+    public boolean updateCart(String id, List<CartItem> cart){
+        refreshConnection();
+        if(connection!=null){
+            try{
+                String cartStr="";
+                if(cart!=null){
+                    for(CartItem item:cart){
+                        cartStr+=item.getCode()+"."+item.getNumber()+",";
+                    }
+                    cartStr=cartStr.substring(0,cartStr.length()-1);
+                }
+                logger.info("new cart str:"+cartStr);
+                System.out.println("connected!");
+                Statement stmt = connection.createStatement();
+                String sql="UPDATE cart set cart='"+cartStr+"' WHERE userid="+id;
+                int r = stmt.executeUpdate(sql);
+                if (r == 1) {
+                    logger.info("update cart success!");
+                    return true;
+                } else {
+                    logger.info("update cart fail!");
+                    return false;
+                }
+            }catch (SQLException e){logger.warning(e.toString());}
         }
         return false;
     }

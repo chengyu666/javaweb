@@ -108,6 +108,29 @@ public class UserViewController {
         return "../../include/editUser";
     }
 
+    @RequestMapping("/recharge")
+    public String rechargeMoney(HttpServletRequest request, Model model){
+        String idStr=request.getParameter("id");
+        String moneyStr=request.getParameter("money");
+        Integer id= Integer.valueOf(idStr);
+        Integer money=Integer.valueOf(moneyStr);
+        try{
+            User user=connector.getUserById(idStr);
+            Integer newMoney=user.getMoney()+money;
+            boolean isSuccess=connector.updateMoney(id,newMoney.toString());
+            if(isSuccess){
+                model.addAttribute("chargeOk", "余额充值成功!");
+            }else {
+                model.addAttribute("chargeFail","余额充值失败，请重试");
+            }
+            model.addAttribute("userInfo",user);
+        }catch(SQLException e){
+            logger.warning(e.toString());
+            model.addAttribute("chargeFail","余额充值失败，请重试");
+        }
+        return "../../include/recharge";
+    }
+
     @RequestMapping("/gotoEditUser")
     public String gotoEditUser(HttpServletRequest request, Model model){
         String userId=request.getParameter("id");

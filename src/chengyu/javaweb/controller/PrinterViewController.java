@@ -93,6 +93,7 @@ public class PrinterViewController {
 
     @RequestMapping("/allPrinters")
     public String showAllPrinters(Model model){
+        //logger.info("in all printers");
         try{
             List<Printer> list=connector.getAllPrinters();
             model.addAttribute("printerList", list);

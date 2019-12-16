@@ -37,7 +37,7 @@
                     <p>角色：<i id="userrole">管理员</i></p>
                 </c:if>
                 <c:if test="${not isAdmin}">
-                    <p>角色：普通用户，余额：${user.money}</p>
+                    <p>角色：普通用户，余额：${user.money}￥</p>
                 </c:if>
                 <p>注册日期：<fmt:formatDate value="${user.signup}" pattern="yyyy年MM月dd日"/></p>
             </small>
@@ -72,6 +72,10 @@
                         <li onclick="changePage('${pageContext.request.contextPath}/allPrinters')"
                             class="list-group-item btn btn-default btn-lg btn-block text-left">
                             <span class="glyphicon glyphicon-th-list"></span>查看所有型号
+                        </li>
+                        <li onclick="changePage('${pageContext.request.contextPath}/cart?id=${user.id}')"
+                            class="list-group-item btn btn-default btn-lg btn-block text-left">
+                            <span class="glyphicon glyphicon-shopping-cart"></span>查看购物车
                         </li>
                         <li onclick="changePage('${pageContext.request.contextPath}/include/updatePassword.jsp')"
                             class="list-group-item btn btn-default btn-lg btn-block text-left">
