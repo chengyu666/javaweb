@@ -175,19 +175,19 @@ public class DBConnector {
         return false;
     }
 
-    public boolean updateMoney(Integer id, String newMoney) throws SQLException {
+    public boolean updateMoney(String id, String newMoney) throws SQLException {
         refreshConnection();
         if (connection != null) {
             logger.info("connected!");
             Statement stmt = connection.createStatement();
             String sql = "SELECT * FROM user where id=?";
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, id);
+            ps.setInt(1, Integer.parseInt(id));
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 String money = rs.getString("money");
                 logger.info("old money:" + money);
-                sql = "UPDATE user SET money=" + newMoney + " WHERE id=" + id.toString();
+                sql = "UPDATE user SET money=" + newMoney + " WHERE id=" + id;
                 int r = stmt.executeUpdate(sql);
                 logger.info("changed rows:" + r);
                 return true;
@@ -397,17 +397,45 @@ public class DBConnector {
                 logger.info("new cart str:"+cartStr);
                 System.out.println("connected!");
                 Statement stmt = connection.createStatement();
-                String sql="UPDATE cart set cart='"+cartStr+"' WHERE userid="+id;
-                int r = stmt.executeUpdate(sql);
+                List<CartItem> oldCart = getCartItems(id);
+                String sql;
+                //null则需要增加记录
+                logger.info("adding new record to cart table");
+                sql="SELECT * FROM cart WHERE userid="+id;
+                ResultSet rs= stmt.executeQuery(sql);
+                if(rs.next()){
+                    sql="UPDATE cart set cart='"+cartStr+"' WHERE userid="+id;
+                }else{
+                    sql="INSERT INTO cart(userid,cart) VALUES("+id+",'"+cartStr+"')";
+                }
+                int r=stmt.executeUpdate(sql);
                 if (r == 1) {
                     logger.info("update cart success!");
                     return true;
                 } else {
-                    logger.info("update cart fail!");
+                    logger.info("id:"+id+" update cart fail!");
                     return false;
                 }
             }catch (SQLException e){logger.warning(e.toString());}
         }
         return false;
+    }
+
+    public void addSearchHistory(String id, String code){
+        refreshConnection();
+        if(connection!=null){
+            try{
+                Statement stmt = connection.createStatement();
+                String sql="INSERT INTO viewHistory " +
+                        "(userid,code) VALUES " +
+                        "('" + id + "','" + code + "')";
+                int r = stmt.executeUpdate(sql);
+                if (r == 1) {
+                    logger.info("update history success!");
+                } else {
+                    logger.info("update history fail!");
+                }
+            }catch (SQLException e){logger.warning(e.toString());}
+        }
     }
 }

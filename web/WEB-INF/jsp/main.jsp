@@ -29,7 +29,13 @@
                 <small><p>Version ${version}</p></small>
             </h2>
         </td>
-        <td class="td-info">
+        <td onclick="window.location.href='${pageContext.request.contextPath}/login'"
+            class="btn btn-default" style="width: min-content; float: right">
+            <h3 style="vertical-align: center;text-align: center;">
+                <span class="glyphicon glyphicon-log-out"></span>
+            </h3>
+        </td>
+        <td class="td-info" style="float: right">
             <small>
                 <span class="glyphicon glyphicon-user"></span>${user.name}
                 ID:<i id="userid">${user.id}</i>
@@ -37,7 +43,8 @@
                     <p>角色：<i id="userrole">管理员</i></p>
                 </c:if>
                 <c:if test="${not isAdmin}">
-                    <p>角色：普通用户，余额：${user.money}￥</p>
+                    <p>角色：普通用户</p>
+                    <p>余额：${user.money}￥</p>
                 </c:if>
                 <p>注册日期：<fmt:formatDate value="${user.signup}" pattern="yyyy年MM月dd日"/></p>
             </small>

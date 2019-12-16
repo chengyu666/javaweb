@@ -27,6 +27,7 @@
         </h4>
     </div>
     <p class="result">${loginResult}</p>
+    <p class="result-ok">${signupResult}</p>
     <div class="panel-body">
         <form action="${pageContext.request.contextPath}/login/try" method="post" style="padding-top:-700px;">
             <p>用户名</p><input type="text" name="name" value=""><br>
@@ -35,7 +36,8 @@
                 <button type="submit" value="Submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> 登陆</button>
                 ........
                 <button type="reset" value="Reset" class="btn btn-primary"><span class="glyphicon glyphicon-repeat"></span> 重置</button>
-            </div>
+            </div><br>
+            没有账户？<a href="${pageContext.request.contextPath}/gotoSignup">立即注册</a>
         </form>
     </div>
 </div>

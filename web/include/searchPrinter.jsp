@@ -20,14 +20,19 @@
     <script type="text/javascript">
         function getSearchResult() {
             const input = $("#input").val();
+            const id = $("#userid").text();
             //alert(input);
             const rightContent = $("#right-content");
             rightContent.empty();
-            rightContent.load("${pageContext.request.contextPath}/searchPrinter?input=" + input);
+            let path = "${pageContext.request.contextPath}/searchPrinter?" +
+                "input=" + input +
+                "&id=" + id;
+            rightContent.load(path);
         }
-        function addToCart(code){
-            const id=$("#userid").text();
-            var path="${pageContext.request.contextPath}/cart?id="+id+"&addCode="+code;
+
+        function addToCart(code) {
+            const id = $("#userid").text();
+            var path = "${pageContext.request.contextPath}/cart?id=" + id + "&addCode=" + code;
             changePage(path);
         }
     </script>

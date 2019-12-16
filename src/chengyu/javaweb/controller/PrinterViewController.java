@@ -78,13 +78,14 @@ public class PrinterViewController {
 
     @RequestMapping("/searchPrinter")
     public String doSearchPrinter(HttpServletRequest request, Model model){
-        //TODO
         String input=request.getParameter("input");
+        String id=request.getParameter("id");
         logger.info("input code:"+input);
         try{
             logger.info("start searching...");
             Printer printer = connector.getPrinterByCode(input);
             model.addAttribute("printer", printer);
+            connector.addSearchHistory(id, input);
         }catch(SQLException e){
             logger.warning(e.toString());
         }

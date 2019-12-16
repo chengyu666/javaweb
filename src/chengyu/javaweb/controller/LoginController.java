@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.SQLException;
 import java.util.logging.Logger;
 
 @Controller
@@ -19,10 +20,19 @@ public class LoginController {
 
     @RequestMapping("/login")
     public String indexController(Model model) {
-        logger.info("\nin controller, version:"+version);
+        logger.info("\nversion:"+version);
         model.addAttribute("version",version); // 指定Model的值
         return "login";
     }
+
+
+    @RequestMapping("/gotoSignup")
+    public String gotoSignup(Model model){
+        model.addAttribute("version",version); // 指定Model的值
+        return "signup";
+    }
+
+
 
     @RequestMapping("/login/try")
     public String loginController(HttpServletRequest request, Model model) {
